@@ -2,6 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    @font-face {
+        font-family: "Plus Jakarta Sans";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("/src/fonts/PlusJakartaSans-Regular.woff2") format('woff2');
+    }
+
+    @font-face {
+        font-family: "Plus Jakarta Sans";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("/src/fonts/PlusJakartaSans-Medium.woff2") format('woff2');
+    }
+
+    @font-face {
+        font-family: "Plus Jakarta Sans";
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url("/src/fonts/PlusJakartaSans-SemiBold.woff2") format('woff2');
+    }
+
+    @font-face {
+        font-family: "Plus Jakarta Sans";
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url("/src/fonts/PlusJakartaSans-Bold.woff2") format('woff2');
+    }
+}
+
 .operator-button {
     padding: 10px 20px;
     margin: 5px;
@@ -10,21 +44,22 @@
     background-color: #f8f8f8;
     cursor: pointer;
     transition: background-color 0.3s;
-  }
+}
 
-.container{
+.container {
     display: flex;
     max-width: 100%;
     max-height: 100%;
     padding: 120px 64px 128px 64px;
     flex-direction: column;
     align-items: center;
-    gap: var(--spacing-spacing-l, 64px);
+    gap: 64px;
     align-self: stretch;
     background: var(--Light-BG, #ECF2EF);
-}  
 
-  /* Карта */
+}
+
+/* Карта */
 .card {
     padding: 48px;
     border-radius: 32px;
@@ -39,9 +74,9 @@
     align-items: flex-start;
     gap: var(--spacing-spacing-l, 64px);
     align-self: stretch; */
-  }
+}
 
-  /* Заголовок карти */
+/* Заголовок карти */
 .card-header {
     display: flex;
     width: var(--width-grid-50, 641px);
@@ -50,74 +85,81 @@
     justify-content: center;
     align-items: center;
     gap: var(--spacing-spacing-s, 24px);
-  }
-  
-  .card-title {
+}
+
+.card-title {
     color: var(--primary, #297378);
     text-align: center;
     /* H1/Desktop */
-    font-family: "Plus Jakarta Sans";
     font-size: var(--fonts-h1, 54px);
     font-style: normal;
     font-weight: 600;
-    line-height: 129%; /* 69.66px */
-  }
+    line-height: 129%;
+    /* 69.66px */
+}
+
 @media (max-width: 768px) {
     .card-title {
-        font-size: 32px; 
-        line-height: 140%; 
+        font-size: 32px;
+        line-height: 140%;
     }
+
     .card-header {
-        align-items: center; 
+        align-items: center;
         padding-top: 20px;
     }
 
-    .container{
-        overflow-x: hidden; 
+    .container {
+        overflow-x: hidden;
         padding: 60px 36px 64px 32px;
     }
 
-    .card, .totalpris-container, .grunnpakke-card, .service-card {
+    .card,
+    .totalpris-container,
+    .grunnpakke-card,
+    .service-card {
 
-        overflow-x: hidden; 
+        overflow-x: hidden;
     }
-    
-    .card-content, .grunnpakke-row, .additional-services {
-        flex-wrap: wrap; 
+
+    .card-content,
+    .grunnpakke-row,
+    .additional-services {
+        flex-wrap: wrap;
     }
 }
 
 @media (max-width: 480px) {
     .card-title {
         font-size: 24px;
-        line-height: 150%; 
+        line-height: 150%;
     }
 }
-  
-  /* Контент карти */
-  .card-content {
+
+/* Контент карти */
+.card-content {
     font-size: 1rem;
     color: #0a336b;
-  }
+}
 
-  .card-content-header{
+.card-content-header {
     color: var(--Text, var(--secondary-dark, #103B4D));
 
     /* H4/Desktop */
-    font-family: "Plus Jakarta Sans";
     font-size: var(--fonts-h4, 28px);
     font-style: normal;
     font-weight: 700;
-    line-height: 136%; /* 38.08px */
-  }
+    line-height: 136%;
+    /* 38.08px */
+}
 
-  .tilleggstjenester-container {
+.tilleggstjenester-container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-  }
-  
-  .tilleggstjeneste-item {
+}
+
+.tilleggstjeneste-item {
     display: flex;
     align-items: flex-start;
     padding: 1rem;
@@ -125,50 +167,51 @@
     border: 1px solid #ddd;
     border-radius: 0.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .tilleggstjeneste-item input[type="checkbox"] {
+}
+
+.tilleggstjeneste-item input[type="checkbox"] {
     margin-right: 1rem;
     width: 20px;
     height: 20px;
-  }
-  
-  .tilleggstjeneste-item h5 {
+}
+
+.tilleggstjeneste-item h5 {
     font-size: 1rem;
     margin-bottom: 0.5rem;
-  }
-  
-  .tilleggstjeneste-item p {
+}
+
+.tilleggstjeneste-item p {
     font-size: 0.875rem;
     color: #666;
-  }
-  
-  .tilleggstjeneste-item ul {
+}
+
+.tilleggstjeneste-item ul {
     margin-top: 0.5rem;
     list-style-type: disc;
     padding-left: 1.5rem;
-  }
-  
-  .tilleggstjeneste-item .price {
+}
+
+.tilleggstjeneste-item .price {
     text-align: right;
     margin-left: auto;
-  }
-  
-  .tilleggstjeneste-item .price p {
+}
+
+.tilleggstjeneste-item .price p {
     margin: 0;
-  }
+}
 
 .h4-custom {
     color: var(--Text, var(--secondary-dark, #103B4D));
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: var(--fonts-h4, 28px);
     font-style: normal;
     font-weight: 700;
-    line-height: 136%; /* 38.08px */
-    margin-bottom: 0.5rem; /* Відповідає Tailwind класу `mb-2` */
+    line-height: 136%;
+    /* 38.08px */
+    margin-bottom: 0.5rem;
+    /* Відповідає Tailwind класу `mb-2` */
 }
 
-.operator-section{
+.operator-section {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -176,7 +219,7 @@
     align-self: stretch;
 }
 
-.operator_buttons-container{
+.operator_buttons-container {
     display: flex;
     align-items: flex-start;
     align-content: flex-start;
@@ -193,11 +236,11 @@
     gap: 6px;
     flex: 1 0 0;
     border-radius: var(--corners-corner-medium, 16px);
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: var(--fonts-small, 16px);
     font-style: normal;
     font-weight: 700;
-    line-height: 140%; /* 22.4px */
+    line-height: 140%;
+    /* 22.4px */
     text-align: center;
     border: 1px solid transparent;
     cursor: pointer;
@@ -219,50 +262,53 @@
 
 
 
-.datapack_header{
-    font-family: "Plus Jakarta Sans", sans-serif;
+.datapack_header {
     font-size: var(--fonts-h4, 28px);
     font-style: normal;
     font-weight: 700;
-    line-height: 136%; /* 38.08px */
+    line-height: 136%;
+    /* 38.08px */
 }
 
-.datapack_items_container{
+.datapack_items_container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     align-items: center;
     padding: 24px 0;
     border-bottom: 1px solid var(--Dark-BG, #D5E2E1);
-    justify-content: flex-start; /* Рівняємо елементи до початку */
+    justify-content: flex-start;
+    /* Рівняємо елементи до початку */
 
 }
 
 .datapack_buttons_container {
     display: flex;
-    flex-wrap: wrap; /* Дозволяє переходити на новий рядок, якщо бракує місця */
-    gap: 12px; /* Простір між кнопками */
-    justify-content: flex-start; /* Рівняємо кнопки до початку контейнера */
+    flex-wrap: wrap;
+    /* Дозволяє переходити на новий рядок, якщо бракує місця */
+    gap: 12px;
+    /* Простір між кнопками */
+    justify-content: flex-start;
+    /* Рівняємо кнопки до початку контейнера */
 
 }
 
-.datapack_raw_header{
+.datapack_raw_header {
     color: var(--Text, var(--secondary-dark, #103B4D));
 
     /* H6/Desktop */
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: var(--fonts-Lead, 20px);
     font-style: normal;
     font-weight: 600;
-    line-height: 146%; /* 29.2px */
+    line-height: 146%;
+    /* 29.2px */
 }
 
-.datapack_raw_container{
+.datapack_raw_container {
     display: flex;
     align-items: center;
     gap: 12px;
     text-align: center;
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: var(--fonts-Small, 16px);
     font-style: normal;
     font-weight: 700;
@@ -297,52 +343,58 @@
     background: var(--primary, #297378);
 }
 
-.datapack-input{
+.datapack-input {
     padding: var(--paddings-padding-s, 16px) var(--paddings-padding-m, 24px);
     width: 120px;
     background: #ECF2EF;
-    border: 1px solid #D5E2E1; 
-    max-width: 100px; 
-    min-width: 80px; 
-    text-align: center; 
-    font-size: 14px; 
-    box-sizing: border-box; /* Враховує*/
+    border: 1px solid #D5E2E1;
+    max-width: 100px;
+    min-width: 80px;
+    text-align: center;
+    font-size: 14px;
+    box-sizing: border-box;
+    /* Враховує*/
     border-radius: var(--corners-corner-medium, 16px);
 }
 
 @media (max-width: 768px) {
     .datapack_raw_container {
-        flex-direction: column; /* Елементи будуть розташовані вертикально */
-        align-items: flex-start; /* Вирівнювання по лівому краю */
-        gap: 16px; /* Збільшуємо відступи між елементами */
+        flex-direction: column;
+        /* Елементи будуть розташовані вертикально */
+        align-items: flex-start;
+        /* Вирівнювання по лівому краю */
+        gap: 16px;
+        /* Збільшуємо відступи між елементами */
     }
 
     .datapack-input {
-        width: 100%; /* Робимо інпут повної ширини на мобільному */
-        max-width: none; /* Вимикаємо обмеження ширини */
+        width: 100%;
+        /* Робимо інпут повної ширини на мобільному */
+        max-width: none;
+        /* Вимикаємо обмеження ширини */
     }
 }
 
-.services-header{
+.services-header {
     color: var(--Text, var(--secondary-dark, #103B4D));
 
     /* H4/Desktop */
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: var(--fonts-h4, 28px);
     font-style: normal;
     font-weight: 700;
-    line-height: 136%; /* 38.08px */
+    line-height: 136%;
+    /* 38.08px */
 
 }
 
-.services-container{
+.services-container {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     /*gap: var(--spacing-spacing-s, 24px);*/
 }
 
-.services-item{
+.services-item {
     display: flex;
     width: 100%;
     padding: var(--spacing-spacing-s, 24px);
@@ -352,48 +404,54 @@
     background: #F9F9F9;
 }
 
-.services-item_header{
+.services-item_header {
     color: var(--Text, var(--secondary-dark, #103B4D));
 
     /* H6/Desktop */
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: var(--fonts-Lead, 20px);
     font-style: normal;
     font-weight: 600;
-    line-height: 146%; /* 29.2px */
+    line-height: 146%;
+    /* 29.2px */
 
     align-self: stretch;
 }
-.services-item_text{
+
+.services-item_text {
     color: var(--Text, var(--secondary-dark, #103B4D));
 
     /* Small/Desktop */
-    font-family: "Plus Jakarta Sans",  sans-serif;
     font-size: var(--fonts-Small, 16px);
     font-style: normal;
     font-weight: 500;
-    line-height: 140%; /* 22.4px */
+    line-height: 140%;
+    /* 22.4px */
     opacity: 0.6;
     align-self: stretch;
 }
 
 input[type="checkbox"] {
-    appearance: none; /* Видаляє стандартний стиль чекбоксу */
+    appearance: none;
+    /* Видаляє стандартний стиль чекбоксу */
     width: 20px;
     height: 20px;
     border-radius: 4px;
-    border: 2px solid #D0D5DD; /* Стиль для невибраного стану */
-    background-color: #fff; /* Фон за замовчуванням */
+    border: 2px solid #D0D5DD;
+    /* Стиль для невибраного стану */
+    background-color: #fff;
+    /* Фон за замовчуванням */
     cursor: pointer;
-    transition: all 0.2s ease-in-out; /* Анімація при зміні стану */
+    transition: all 0.2s ease-in-out;
+    /* Анімація при зміні стану */
 }
 
 input[type="checkbox"]:checked {
-    border: 2px solid var(--primary, #297378); /* Стиль для вибраного стану */
-    background-color: var(--primary, #297378); 
+    border: 2px solid var(--primary, #297378);
+    /* Стиль для вибраного стану */
+    background-color: var(--primary, #297378);
 }
 
-.total_container{
+.total_container {
     display: flex;
     max-width: 100%;
     max-height: 100%;
@@ -416,7 +474,7 @@ input[type="checkbox"]:checked {
     align-self: stretch; */
 }
 
-.card-container{
+.card-container {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -424,7 +482,7 @@ input[type="checkbox"]:checked {
     margin: 0 auto;
 }
 
-.card-container > * {
+.card-container>* {
     width: 100%;
     margin: 0;
 }
