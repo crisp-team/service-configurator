@@ -1,5 +1,5 @@
 import React from 'react';
-import "../../../ServiceConfigurator.css"
+import "../../../ServiceConfigurator.scss"
 
 export const Card = ({ children, className }) => {
   return (
@@ -18,5 +18,5 @@ export const CardHeader = ({ children }) => {
 };
 
 export const CardTitle = ({ children }) => {
-  return <h2 className="card-title">{children}</h2>;
+  return <h1 className="heading-h1 text-custom-primary text-center">{children}</h1>;
 };

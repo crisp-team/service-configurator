@@ -1,0 +1,39 @@
+.heading-h1 {
+  @apply text-4xl sm:text-[54px] leading-[105%] sm:leading-[129%] font-semibold;
+}
+
+.heading-h2 {
+  @apply text-[28px] sm:text-5xl leading-tight font-semibold;
+}
+
+.heading-h3 {
+  @apply text-2xl sm:text-4xl leading-tight font-semibold;
+}
+
+.heading-h4 {
+  @apply text-[22px] sm:text-[28px] leading-[136%] font-bold;
+}
+
+.heading-h5 {
+  @apply text-xl sm:text-2xl leading-[136%] sm:leading-[139%] font-semibold;
+}
+
+.heading-h6 {
+  @apply text-lg sm:text-xl leading-[130%] sm:leading-[146%] font-bold sm:font-semibold;
+}
+
+.text-lead {
+  @apply text-lg sm:text-xl leading-[130%] sm:leading-[168%];
+}
+
+.text-regular {
+  @apply text-base sm:text-lg leading-[140%] sm:leading-[157%] tracking-[1%];
+}
+
+.font-small {
+  @apply text-base leading-[140%];
+}
+
+.text-label {
+  @apply text-sm leading-tight;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client'; // Use this import for React 18+
 import './index.css';
+import './App.scss';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import ServiceConfigurator from './ServiceConfigurator';
 

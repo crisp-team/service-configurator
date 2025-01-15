@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {ChevronDown, ChevronRight, X, Info} from 'lucide-react';
 import {Card, CardContent, CardHeader, CardTitle} from './components/ui/card/Card';
 import {Total, TotalContent, TotalHeader} from "./components/ui/card/Total";
-import './ServiceConfigurator.css';
+import './ServiceConfigurator.scss';
 import './TotalPrice.css';
 import axios from 'axios';
 // import {Alert, AlertTitle, AlertDescription} from './components/ui/alert';
@@ -198,26 +198,26 @@ const ServiceConfigurator = () => {
 
 
     return (
-        <div >
+        <>
             <Card>
                 <CardHeader>
                     <CardTitle>Tjenesteoversikt</CardTitle>
                 </CardHeader>
+
                 <CardContent>
                     {/* <div>
   <h3>Debug: Additional Services</h3>
   <pre>{JSON.stringify(prices, null, 2)}</pre>
     </div> */}
                     <div className="">
-
                         <div className="operator-section">
-                            <h4 className="h4-custom">Operatør</h4>
+                            <h2 className="heading-h4">Operatør</h2>
                             <div className="operator_buttons-container">
                                 {operators.map((op) => (
                                     <button
                                         key={op.id}
                                         onClick={() => setSelectedOperator(op.id)}
-                                        className={`button-custom ${
+                                        className={`button-custom font-small ${
                                             selectedOperator === op.id ? 'selected' : 'default'
                                         }`}
                                     >
@@ -227,25 +227,25 @@ const ServiceConfigurator = () => {
                             </div>
                         </div>
 
-                        <div>
-                            <h4 className="datapack_header">Datapakke</h4>
+                        <div className="datapack_wrap">
+                            <h2 className="mb-2 heading-h4">Datapakke</h2>
                             <div className="datapack_items_container">
                                 {/* Поле Antall у вигляді кнопки */}
                                 <div className="datapack_raw_container">
-                                    <label className="datapack_raw_header">Antall:</label>
+                                    <label className="datapack_raw_header heading-h6">Antall:</label>
                                     <input
                                         type="number"
                                         min="1"
                                         value={quantity}
                                         onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                                        className="datapack-input"
+                                        className="datapack-input font-small"
                                     />
                                     <div className="datapack_buttons_container">
                                         {dataPacks.map((pack) => (
                                             <button
                                                 key={pack.id}
                                                 onClick={() => setSelectedDataPack(pack.id)}
-                                                className={`datapack-button-custom ${
+                                                className={`button-custom font-small ${
                                                     selectedDataPack === pack.id
                                                         ? 'selected' : 'default'
                                                 }`}
@@ -259,67 +259,71 @@ const ServiceConfigurator = () => {
 
                             </div>
                         </div>
-                        <div>
 
-                            <div className="services-container">
-                                <h4 className="services-header">Tilleggstjenester</h4>
-                                {additionalServices.map((service) => (
-                                    <div
-                                        key={service.id}
-                                        className="services-item"
-                                    >
-                                        {/* Checkbox */}
-                                        <input
-                                            type="checkbox"
-                                            id={`service-${service.id}`}
-                                            className="mr-4 h-5 w-5 rounded border-gray-300 focus:ring-blue-500"
-                                            checked={selectedServices.includes(service.id)}
-                                            onChange={() => {
-                                                if (selectedServices.includes(service.id)) {
-                                                    setSelectedServices((prev) =>
-                                                        prev.filter((id) => id !== service.id)
-                                                    );
-                                                } else {
-                                                    setSelectedServices((prev) => [...prev, service.id]);
-                                                }
-                                            }}
-                                        />
+                        <div className="services-container">
+                            <h4 className="services-header heading-h6">Tilleggstjenester</h4>
+                            <div className="services-item-box">
+                            {additionalServices.map((service) => (
+                                <div className="services-item-wrap">
+                                <div
+                                    key={service.id}
+                                    className="services-item"
+                                >
+                                    {/* Checkbox */}
+                                    <input
+                                        type="checkbox"
+                                        id={`service-${service.id}`}
+                                        className="service-checkbox"
+                                        checked={selectedServices.includes(service.id)}
+                                        onChange={() => {
+                                            if (selectedServices.includes(service.id)) {
+                                                setSelectedServices((prev) =>
+                                                    prev.filter((id) => id !== service.id)
+                                                );
+                                            } else {
+                                                setSelectedServices((prev) => [...prev, service.id]);
+                                            }
+                                        }}
+                                    />
 
-                                        {/* Service Information */}
-                                        <div className="flex-1">
-                                            <label htmlFor={`service-${service.id}`} className="block cursor-pointer">
-                                                <h5 className="services-item_header">{service.name}</h5>
-                                                <p className="services-item_text">{service.description}</p>
-                                                {/*{service.features?.length > 0 && (*/}
-                                                {/*    <ul className="list-disc list-inside mt-2 text-sm text-gray-500">*/}
-                                                {/*        {service.features.map((feature, index) => (*/}
-                                                {/*            <li key={index}>{feature}</li>*/}
-                                                {/*        ))}*/}
-                                                {/*    </ul>*/}
-                                                {/*)}*/}
-                                            </label>
-                                        </div>
-
-                                        {/* Price Section */}
-                                        <div className="ml-auto text-right">
-                                            <p className="font-semibold text-gray-700">
-                                                Kr {service.monthlyPrice.toFixed(2)}/md
-                                            </p>
-                                            {/*{service.oneTimePrice && (*/}
-                                            {/*    <p className="text-sm text-gray-500">*/}
-                                            {/*        Engangssum: kr {service.oneTimePrice.toFixed(2)}*/}
-                                            {/*    </p>*/}
+                                    {/* Service Information */}
+                                    <div className="flex-1 select-none">
+                                        <label htmlFor={`service-${service.id}`} className="block cursor-pointer transition-opacity">
+                                            <h5 className="mb-2 heading-h6">{service.name}</h5>
+                                            <p className="font-small opacity-60">{service.description}</p>
+                                            {/*{service.features?.length > 0 && (*/}
+                                            {/*    <ul className="list-disc list-inside mt-2 text-sm text-gray-500">*/}
+                                            {/*        {service.features.map((feature, index) => (*/}
+                                            {/*            <li key={index}>{feature}</li>*/}
+                                            {/*        ))}*/}
+                                            {/*    </ul>*/}
                                             {/*)}*/}
-                                        </div>
+                                        </label>
                                     </div>
-                                ))}
+                                    </div>
+
+
+
+                                    {/* Price Section */}
+                                    <p className="heading-h6 services-item-price">
+                                        Kr {service.monthlyPrice.toFixed(2)}/md
+                                        {/*{service.oneTimePrice && (*/}
+                                        {/*    <p className="text-sm text-gray-500">*/}
+                                        {/*        Engangssum: kr {service.oneTimePrice.toFixed(2)}*/}
+                                        {/*    </p>*/}
+                                        {/*)}*/}
+                                    </p>
+                                </div>
+                            ))}
                             </div>
                         </div>
+
 
 
                     </div>
                     {/* <div> */}
                     {isAnyServiceSelected && (
+                        <>
                         <div className="printable-section">
 
                             {/* Totalpris */}
@@ -418,35 +422,36 @@ const ServiceConfigurator = () => {
                                 {offerSavedMessage && (
                                     <div className="totalpris-success-message">Offer Saved to Airtables!</div>
                                 )}
-
-                            <div className="buttons-container">
-                                <button
-                                    onClick={saveOffer}
-                                    className={`active-button ${isOfferSaved ? 'disabled-button' : ''}`}
-                                    disabled={isOfferSaved}
-                                >
-                                    Save an Offer
-                                </button>
-                                <button
-                                    onClick={() => window.print()}
-                                    className={`active-button ${!isOfferSaved ? 'disabled-button' : ''}`}
-                                    disabled={!isOfferSaved}
-                                >
-                                    Save as PDF
-                                </button>
-                            </div>
-
                         </div>
-
+                        </>
                     )}
                 </CardContent>
             </Card>
+
+            <div className="buttons-container">
+                <button
+                    onClick={saveOffer}
+                    className={`active-button ${!isAnyServiceSelected ? 'disabled-button' : ''}`}
+                    disabled={isOfferSaved}
+                >
+                    Save an offer
+                </button>
+
+                <button
+                    onClick={() => window.print()}
+                    className={`active-button ${!isOfferSaved ? 'disabled-button' : ''}`}
+                    disabled={!isOfferSaved}
+                >
+                    Save as PDF
+                    <svg className="pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1m-4-4-4 4m0 0-4-4m4 4V4"/></svg>
+                </button>
+            </div>
             <Total>
                 {/*<TotalHeader></TotalHeader>*/}
 
             </Total>
 
-        </div>
+        </>
     );
 };
 

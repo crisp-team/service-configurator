@@ -1,0 +1,9 @@
+.card {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+
+  @apply p-4 sm:p-6 md:p-12 rounded-3xl sm:rounded-[32px];
+}

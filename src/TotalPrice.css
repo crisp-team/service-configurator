@@ -67,21 +67,28 @@
     background-color: #f9fafb;
     /*border: 1px solid #d1d5db; !* Світло-сіра рамка *!*/
     /*border-radius: 8px; !* Заокруглені кути *!*/
-    padding: 16px; /* Внутрішній відступ */
+    padding: 16px;
+    /* Внутрішній відступ */
     /*max-width: 300px; !* Максимальна ширина картки *!*/
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тінь */
-    font-family: Arial, sans-serif; /* Шрифт */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Тінь */
+    font-family: Arial, sans-serif;
+    /* Шрифт */
 }
 
 /* Заголовок */
 .grunnpakke-title {
-    font-size: 18px; /* Розмір тексту */
-    font-weight: bold; /* Жирний текст */
-    color: #1e40af; /* Темно-синій колір */
-    margin-bottom: 8px; /* Відступ знизу */
+    font-size: 18px;
+    /* Розмір тексту */
+    font-weight: bold;
+    /* Жирний текст */
+    color: #1e40af;
+    /* Темно-синій колір */
+    margin-bottom: 8px;
+    /* Відступ знизу */
 }
 
-.grunnpakke-content{
+.grunnpakke-content {
     text-align: left;
     display: flex;
     flex-direction: column;
@@ -101,16 +108,20 @@
     font-size: var(--fonts-Regular, 18px);
     font-style: normal;
     font-weight: 700;
-    line-height: 157%; /* 28.26px */
+    line-height: 157%;
+    /* 28.26px */
     letter-spacing: 0.18px;
 }
 
 /* Пакет даних */
-.grunnpakke-row{
+.grunnpakke-row {
     display: flex;
-    justify-content: space-between; /* Розташування елементів по краях */
-    align-items: center; /* Вирівнювання по вертикалі */
-    gap: 20px; /* Проміжок між елементами */
+    justify-content: space-between;
+    /* Розташування елементів по краях */
+    align-items: center;
+    /* Вирівнювання по вертикалі */
+    gap: 20px;
+    /* Проміжок між елементами */
     width: 100%;
     /*justify-content: space-between;*/
 }
@@ -122,7 +133,8 @@
     font-size: var(--fonts-Small, 16px);
     font-style: normal;
     font-weight: 500;
-    line-height: 140%; /* 22.4px */
+    line-height: 140%;
+    /* 22.4px */
 }
 
 .grunnpakke-quantity {
@@ -133,7 +145,8 @@
     font-size: var(--fonts-Small, 16px);
     font-style: normal;
     font-weight: 500;
-    line-height: 140%; /* 22.4px */
+    line-height: 140%;
+    /* 22.4px */
 }
 
 /* Ціна */
@@ -145,10 +158,11 @@
     font-size: var(--fonts-Small, 16px);
     font-style: normal;
     font-weight: 700;
-    line-height: 140%; /* 22.4px */
+    line-height: 140%;
+    /* 22.4px */
 }
 
-.grunnpakke-total{
+.grunnpakke-total {
     color: var(--Accent-3, #78387A);
     text-align: right;
     /* Regular/Desktop */
@@ -156,7 +170,8 @@
     font-size: var(--fonts-Regular, 18px);
     font-style: normal;
     font-weight: 700;
-    line-height: 157%; /* 28.26px */
+    line-height: 157%;
+    /* 28.26px */
     letter-spacing: 0.18px;
     align-self: flex-end;
 }
@@ -164,8 +179,10 @@
 /* Опис */
 .grunnpakke-description {
     font-size: 12px;
-    color: #6b7280; /* Сірий */
-    margin-top: 8px; /* Відступ зверху */
+    color: #6b7280;
+    /* Сірий */
+    margin-top: 8px;
+    /* Відступ зверху */
 }
 
 /*Additional services*/
@@ -199,7 +216,8 @@
     font-family: "Plus Jakarta Sans";
     font-size: var(--fonts-Regular, 18px);
     font-weight: 700;
-    line-height: 157%; /* 28.26px */
+    line-height: 157%;
+    /* 28.26px */
     letter-spacing: 0.18px;
 }
 
@@ -208,7 +226,8 @@
     font-family: "Plus Jakarta Sans";
     font-size: var(--fonts-Small, 16px);
     font-weight: 500;
-    line-height: 140%; /* 22.4px */
+    line-height: 140%;
+    /* 22.4px */
     margin-top: 16px;
 }
 
@@ -221,7 +240,8 @@
     font-family: "Plus Jakarta Sans";
     font-size: var(--fonts-Small, 16px);
     font-weight: 500;
-    line-height: 140%; /* 22.4px */
+    line-height: 140%;
+    /* 22.4px */
 }
 
 .features-list {
@@ -235,7 +255,8 @@
     font-family: "Plus Jakarta Sans";
     font-size: var(--fonts-Small, 16px);
     font-weight: 500;
-    line-height: 140%; /* 22.4px */
+    line-height: 140%;
+    /* 22.4px */
 }
 
 .service-prices {
@@ -252,7 +273,8 @@
     font-family: "Plus Jakarta Sans";
     font-size: var(--fonts-Regular, 18px);
     font-weight: 700;
-    line-height: 157%; /* 28.26px */
+    line-height: 157%;
+    /* 28.26px */
     letter-spacing: 0.18px;
     margin-bottom: 8px;
 }
@@ -264,125 +286,141 @@
 
 @media (max-width: 768px) {
     .service-card {
-        flex-direction: column; /* Вертикальне розташування */
+        flex-direction: column;
+        /* Вертикальне розташування */
     }
 
     .service-content {
-        flex-direction: column; /* Інформація та ціни у колонку */
+        flex-direction: column;
+        /* Інформація та ціни у колонку */
         align-items: flex-start;
     }
 
     .service-prices {
-        align-items: flex-start; /* Вирівнювання цін по лівому краю */
-        margin-top: 16px; /* Відступ зверху */
-        min-width: auto; /* Зняття обмеження ширини */
+        align-items: flex-start;
+        /* Вирівнювання цін по лівому краю */
+        margin-top: 16px;
+        /* Відступ зверху */
+        min-width: auto;
+        /* Зняття обмеження ширини */
     }
 
-    .service-title, .service-description, .features-title {
-        font-size: 16px; /* Зменшення розміру шрифта */
+    .service-title,
+    .service-description,
+    .features-title {
+        font-size: 16px;
+        /* Зменшення розміру шрифта */
     }
 
-    .price-monthly, .price-onetime {
-        font-size: 16px; /* Зменшення розміру тексту */
+    .price-monthly,
+    .price-onetime {
+        font-size: 16px;
+        /* Зменшення розміру тексту */
     }
 
     .additional-services {
-        gap: 16px; /* Більший відступ між елементами */
+        gap: 16px;
+        /* Більший відступ між елементами */
     }
 }
 
 /* Для мобільних пристроїв (ширина до 480px) */
 @media (max-width: 480px) {
     .service-card {
-        padding: 16px; /* Зменшення внутрішніх відступів */
+        padding: 16px;
+        /* Зменшення внутрішніх відступів */
     }
 
-    .service-title, .service-description, .features-title {
-        font-size: 14px; /* Ще більше зменшення шрифта */
+    .service-title,
+    .service-description,
+    .features-title {
+        font-size: 14px;
+        /* Ще більше зменшення шрифта */
     }
 
-    .price-monthly, .price-onetime {
-        font-size: 14px; /* Зменшення тексту ціни */
+    .price-monthly,
+    .price-onetime {
+        font-size: 14px;
+        /* Зменшення тексту ціни */
     }
 
     .features-list {
-        padding-left: 16px; /* Зменшення відступу списку */
+        padding-left: 16px;
+        /* Зменшення відступу списку */
     }
 
     .totalpris-container {
-        padding: 16px; /* Зменшення відступів */
-        gap: 8px; /* Менший відступ між елементами */
+        padding: 16px;
+        /* Зменшення відступів */
+        gap: 8px;
+        /* Менший відступ між елементами */
     }
 
     .totalpris-title {
-        font-size: 20px; /* Зменшення розміру заголовка */
+        font-size: 20px;
+        /* Зменшення розміру заголовка */
     }
 
-    .totalpris-label, .totalpris-value {
-        font-size: 16px; /* Зменшення тексту */
+    .totalpris-label,
+    .totalpris-value {
+        font-size: 16px;
+        /* Зменшення тексту */
     }
 
     .grunnpakke-card {
-        padding: 12px; /* Менший внутрішній відступ */
+        padding: 12px;
+        /* Менший внутрішній відступ */
     }
 
     .grunnpakke-title {
-        font-size: 16px; /* Зменшення заголовка */
+        font-size: 16px;
+        /* Зменшення заголовка */
     }
 
     .grunnpakke-row {
-        flex-direction: column; /* Стовпчики в колонку */
-        gap: 10px; /* Відступи між елементами */
+        flex-direction: column;
+        /* Стовпчики в колонку */
+        gap: 10px;
+        /* Відступи між елементами */
     }
 
-    .grunnpakke-price, .grunnpakke-total {
-        font-size: 14px; /* Зменшення тексту ціни */
+    .grunnpakke-price,
+    .grunnpakke-total {
+        font-size: 14px;
+        /* Зменшення тексту ціни */
     }
 }
 
-.buttons-container{
+.buttons-container {
+    margin-top: 40px;
     display: flex;
     padding-top: 20px;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 60px;
+    gap: 28px;
 }
 
-.active-button{
-    display: flex;
-    padding: var(--paddings-padding-s, 16px) var(--paddings-padding-l, 32px);
-    justify-content: center;
-    align-items: center;
-    gap: var(--spacing-spacing-xxs, 12px);
-    border-radius: var(--corners-corner-medium, 16px);
-    background: var(--primary, #297378);
-    color: var(--white, #FFF);
-}
 
-.disabled-button {
-    display: flex;
-    padding: var(--paddings-padding-s, 16px) var(--paddings-padding-l, 32px);
-    justify-content: center;
-    align-items: center;
-    gap: var(--spacing-spacing-xxs, 12px);
-    background: var(--Text-6, rgba(22, 23, 24, 0.06));
-    color: #161718; 
-    cursor: not-allowed; 
-    /* opacity: 0.6; */
-}
 
 @media print {
     body * {
-        visibility: hidden; /* Приховати всі елементи на сторінці */
+        visibility: hidden;
+        /* Приховати всі елементи на сторінці */
     }
-    .printable-section, .printable-section * {
-        visibility: visible; /* Зробити видимими лише ці елементи */
+
+    .printable-section,
+    .printable-section * {
+        visibility: visible;
+        /* Зробити видимими лише ці елементи */
     }
+
     .printable-section {
-        position: absolute; /* Щоб уникнути зрушення при друці */
+        position: absolute;
+        /* Щоб уникнути зрушення при друці */
         top: 0;
         left: 0;
-        width: 100%; /* Заповнити всю ширину */
+        width: 100%;
+        /* Заповнити всю ширину */
     }
 }

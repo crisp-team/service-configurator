@@ -1,0 +1,47 @@
+.datapack_wrap {
+}
+
+.datapack_items_container {
+  padding: 24px 0;
+
+  @apply border-b border-b-dark-bg;
+}
+
+.datapack_raw_container {
+  display: flex;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 140%;
+
+  @apply flex-col md:flex-row gap-3 md:gap-4 items-start md:items-center;
+}
+
+.datapack_raw_header {
+  flex: none;
+
+  @apply text-custom-secondary-dark w-auto md:w-[160px];
+}
+
+.datapack-input {
+  flex: none;
+  display: block;
+  padding: 16px 24px;
+  text-align: center;
+  box-sizing: border-box;
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0);
+  transition: all 0.2s ease;
+
+  @apply bg-light-bg w-full md:w-[120px] text-custom-secondary-dark md:mr-6;
+}
+
+.datapack-input:hover {
+  @apply border-custom-primary;
+}
+
+.datapack_buttons_container {
+  display: flex;
+  flex-wrap: wrap;
+
+  @apply gap-3 sm:gap-4;
+}

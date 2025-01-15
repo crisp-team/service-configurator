@@ -1,0 +1,24 @@
+.button-custom {
+  display: flex;
+  padding: 16px 24px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  font-weight: 700;
+  border: 2px solid rgba(255, 255, 255, 0);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.button-custom:hover {
+  @apply border-custom-primary;
+}
+.button-custom.default {
+  border-radius: var(--corners-corner-medium, 16px);
+  background: var(--Light-BG, #ecf2ef);
+}
+.button-custom.selected {
+  background: var(--primary, #297378);
+  color: var(--white, #fff);
+  border-color: var(--primary, #297378);
+  pointer-events: none;
+}
