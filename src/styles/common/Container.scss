@@ -1,5 +1,5 @@
 .container {
   max-width: calc(1088px + var(--bs-gutter-x));
 
-  @apply gap-8 sm:gap-16 my-5 mx-auto flex flex-col self-stretch max-h-full;
+  @apply gap-8 sm:gap-16 my-5 mx-auto flex flex-col self-stretch w-full max-h-full;
 }

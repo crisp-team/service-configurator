@@ -109,7 +109,10 @@ const ServiceConfigurator = () => {
         );
 
         setPrices(formattedPrices); // Update state with formatted prices
-        setIsLoaded(true);
+
+        setTimeout(()=>{
+          setIsLoaded(true);
+        },2000);
       } catch (error) {
         console.error("Error fetching Airtable data:", error);
       }
