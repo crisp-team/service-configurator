@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "./styles/Fonts.scss";
-@import "./styles/common/Typography.scss";
-@import "./styles/common/ServiceConfigurator.scss";
-@import "./styles/common/TotalPrice.scss";
+@import "@styles/Fonts.scss";
+@import "@styles/common/Typography.scss";
+@import "@styles/common/ServiceConfigurator.scss";
+@import "@styles/common/TotalPrice.scss";
 
 body {
   font-family: "Plus Jakarta Sans", Helvetica, sans-serif;

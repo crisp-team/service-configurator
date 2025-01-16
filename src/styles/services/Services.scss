@@ -33,11 +33,11 @@
 }
 
 .services-item-price {
-  @apply flex-none md:w-[190px] text-left md:text-right ml-[38px] md:ml-0 mt-4 md:mt-0 text-custom-secondary-dark;
+  @apply md:w-[190px] ml-[38px] md:ml-0 flex-none text-left md:text-right mt-4 md:mt-0 text-custom-secondary-dark;
 }
 
 .service-checkbox {
-  @apply w-6 sm:w-8 h-6 sm:h-8 mt-1 sm:mt-0 cursor-pointer rounded transition-all duration-100 bg-center bg-no-repeat bg-contain appearance-none border-2 border-[#d0d5dd];
+  @apply border-[#d0d5dd] w-6 sm:w-8 h-6 sm:h-8 mt-1 sm:mt-0 cursor-pointer rounded transition-all duration-100 bg-center bg-no-repeat bg-contain appearance-none border-2;
 }
 
 .service-checkbox:checked {

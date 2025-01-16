@@ -7,11 +7,11 @@
 }
 
 .datapack_raw_header {
-  @apply flex-none text-custom-secondary-dark w-auto md:w-[160px];
+  @apply md:w-[160px] w-auto flex-none text-custom-secondary-dark;
 }
 
 .datapack-input {
-  @apply flex-none block py-4 px-6 text-center rounded-2xl bg-light-bg w-full border-2 border-transparent md:w-[120px] text-custom-secondary-dark md:mr-6 transition-colors duration-200;
+  @apply md:w-[120px] flex-none block py-4 px-6 text-center rounded-2xl bg-light-bg w-full border-2 border-transparent  text-custom-secondary-dark md:mr-6 transition-colors duration-200;
 }
 
 .datapack-input:hover {

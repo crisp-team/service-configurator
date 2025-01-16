@@ -1,5 +1,5 @@
 .heading-h1 {
-  @apply text-4xl sm:text-[54px] leading-[105%] sm:leading-[129%] font-semibold;
+  @apply sm:text-[54px] leading-[105%] sm:leading-[129%] text-4xl font-semibold;
 }
 
 .heading-h2 {
@@ -15,23 +15,23 @@
 }
 
 .heading-h5 {
-  @apply text-xl sm:text-2xl leading-[136%] sm:leading-[139%] font-semibold;
+  @apply leading-[136%] sm:leading-[139%] text-xl sm:text-2xl font-semibold;
 }
 
 .heading-h6 {
-  @apply text-lg sm:text-xl leading-[130%] sm:leading-[146%] font-bold sm:font-semibold;
+  @apply leading-[130%] sm:leading-[146%] text-lg sm:text-xl font-bold sm:font-semibold;
 }
 
 .font-lead {
-  @apply text-lg sm:text-xl leading-[130%] sm:leading-[168%];
+  @apply leading-[130%] sm:leading-[168%] text-lg sm:text-xl;
 }
 
 .font-regular {
-  @apply text-base sm:text-lg leading-[140%] sm:leading-[157%] tracking-[1%];
+  @apply leading-[140%] sm:leading-[157%] tracking-[1%] text-base sm:text-lg;
 }
 
 .font-small {
-  @apply text-base leading-[140%];
+  @apply leading-[140%] text-base;
 }
 
 .font-label {

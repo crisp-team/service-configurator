@@ -1,5 +1,5 @@
 import React from "react"
-import { Logo } from "./Logo"
+import { MainLogo } from "./MainLogo"
 
 export const PrintFooter = () => {
   return (
@@ -15,7 +15,7 @@ export const PrintFooter = () => {
               <p className="heading-h6 text-custom-primary transition-opacity hover:opacity-70"><a href="tel:66907980">66907980</a></p>
           </div>
       </div>
-      <Logo />
+      <MainLogo />
     </div>
   )
 }
