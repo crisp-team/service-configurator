@@ -6,12 +6,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'custom-primary': '#297378',
-        white: '#FFF',
-        'light-bg': '#ECF2EF',
-        'dark-bg': '#d5e2e1',
-        'custom-secondary-dark': '#103b4d',
-        'custom-accent-3': '#78387A',
+        'custom-primary': 'var(--custom-primary)',
+        'light-bg': 'var(--light-bg)',
+        'dark-bg': 'var(--dark-bg)',
+        'custom-secondary-dark': 'var(--custom-secondary-dark)',
+        'custom-accent-3': 'var(--custom-accent-3)',
       },
       borderRadius: {
         medium: '16px',

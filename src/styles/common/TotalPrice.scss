@@ -51,7 +51,7 @@
 
 @media print {
   body {
-    @apply bg-white;
+    background-color: #fff !important;
   }
   body * {
     @apply invisible;

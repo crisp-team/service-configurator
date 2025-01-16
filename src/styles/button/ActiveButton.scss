@@ -3,7 +3,7 @@
 }
 
 .active-button:hover {
-  @apply bg-custom-primary/80;
+  @apply bg-custom-primary bg-opacity-80;
 }
 
 .disabled-button {

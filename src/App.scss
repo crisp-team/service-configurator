@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --custom-primary: #297378;
+  --light-bg: #ecf2ef;
+  --dark-bg: #d5e2e1;
+  --custom-secondary-dark: #103b4d;
+  --custom-accent-3: #78387a;
+}
+
 @import "@styles/Fonts.scss";
 @import "@styles/common/Typography.scss";
 @import "@styles/common/ServiceConfigurator.scss";
@@ -11,6 +19,7 @@ body {
   font-family: "Plus Jakarta Sans", Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 
   @apply m-0 bg-light-bg;
 }

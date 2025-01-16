@@ -11,6 +11,7 @@ import { Total /*, TotalContent, TotalHeader*/ } from "./components/ui/card/Tota
 import axios from "axios";
 // import {Alert, AlertTitle, AlertDescription} from './components/ui/alert';
 import { PrintFooter } from "./components/PrintFooter";
+import { LoaderComponent } from "./components/loader/LoaderComponent";
 
 const ServiceConfigurator = () => {
   const AIRTABLE_API_KEY =
@@ -30,6 +31,7 @@ const ServiceConfigurator = () => {
   const [offerSavedMessage, setOfferSavedMessage] = useState(false);
   const [totals, setTotals] = useState({ monthly: 0, oneTime: 0 });
   const [isOfferSaved, setIsOfferSaved] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const fetchAirtableData = async () => {
@@ -107,6 +109,7 @@ const ServiceConfigurator = () => {
         );
 
         setPrices(formattedPrices); // Update state with formatted prices
+        setIsLoaded(true);
       } catch (error) {
         console.error("Error fetching Airtable data:", error);
       }
@@ -223,11 +226,18 @@ const ServiceConfigurator = () => {
     // Збереження на Airtable
     saveOfferToAirtable(offer);
     setIsOfferSaved(true);
+
+    setTimeout(()=>{
+      typeof window !== 'undefined' && window.scrollTo(0, 0);
+    },200)
+
   };
 
   return (
     <>
-      <Card>
+    {
+      isLoaded ? <>
+        <Card>
         <CardHeader>
           <CardTitle>Tjenesteoversikt</CardTitle>
         </CardHeader>
@@ -235,9 +245,9 @@ const ServiceConfigurator = () => {
           <>
             <CardContent>
               {/* <div>
-                        <h3>Debug: Additional Services</h3>
-                        <pre>{JSON.stringify(prices, null, 2)}</pre>
-                            </div> */}
+                <h3>Debug: Additional Services</h3>
+                <pre>{JSON.stringify(prices, null, 2)}</pre>
+              </div> */}
               <div>
                 <div className="mb-10 flex flex-col items-start gap-6 self-stretch">
                   <h2 className="heading-h4">Operatør</h2>
@@ -299,8 +309,8 @@ const ServiceConfigurator = () => {
                     Tilleggstjenester
                   </h4>
                   <div className="services-item-box">
-                    {additionalServices.map((service) => (
-                      <div className="services-item-wrap">
+                    {additionalServices.map((service,idx) => (
+                      <div className="services-item-wrap" key={idx}>
                         <div key={service.id} className="services-item">
                           {/* Checkbox */}
                           <input
@@ -547,9 +557,9 @@ const ServiceConfigurator = () => {
             >
               <path
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M4 16v1a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1m-4-4-4 4m0 0-4-4m4 4V4"
               />
             </svg>
@@ -557,7 +567,9 @@ const ServiceConfigurator = () => {
         </div>
       </Card>
 
-      <Total>{/*<TotalHeader></TotalHeader>*/}</Total>
+      <Total>{/*<TotalHeader></TotalHeader>*/}</Total></> : <LoaderComponent />
+    }
+
     </>
   );
 };
