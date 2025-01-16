@@ -11,6 +11,7 @@ module.exports = {
         'light-bg': '#ECF2EF',
         'dark-bg': '#d5e2e1',
         'custom-secondary-dark': '#103b4d',
+        'custom-accent-3': '#78387A',
       },
       borderRadius: {
         medium: '16px',

@@ -1,11 +1,5 @@
 .container {
-  margin: 20px auto;
-  display: flex;
   max-width: calc(1088px + var(--bs-gutter-x));
-  max-height: 100%;
-  flex-direction: column;
-  align-items: center;
-  align-self: stretch;
 
-  @apply gap-8 sm:gap-16;
+  @apply gap-8 sm:gap-16 my-5 mx-auto flex flex-col self-stretch max-h-full;
 }

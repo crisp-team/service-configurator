@@ -1,24 +1,15 @@
 .button-custom {
-  display: flex;
-  padding: 16px 24px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 16px;
-  font-weight: 700;
-  border: 2px solid rgba(255, 255, 255, 0);
-  cursor: pointer;
-  transition: all 0.2s ease;
+  @apply py-4 px-6 flex justify-center items-center rounded-2xl font-bold border-2 border-transparent cursor-pointer transition-colors duration-200;
 }
+
 .button-custom:hover {
   @apply border-custom-primary;
 }
+
 .button-custom.default {
-  border-radius: var(--corners-corner-medium, 16px);
-  background: var(--Light-BG, #ecf2ef);
+  @apply bg-light-bg;
 }
+
 .button-custom.selected {
-  background: var(--primary, #297378);
-  color: var(--white, #fff);
-  border-color: var(--primary, #297378);
-  pointer-events: none;
+  @apply bg-custom-primary text-white border-custom-primary pointer-events-none;
 }

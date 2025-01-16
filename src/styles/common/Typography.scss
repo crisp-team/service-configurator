@@ -22,11 +22,11 @@
   @apply text-lg sm:text-xl leading-[130%] sm:leading-[146%] font-bold sm:font-semibold;
 }
 
-.text-lead {
+.font-lead {
   @apply text-lg sm:text-xl leading-[130%] sm:leading-[168%];
 }
 
-.text-regular {
+.font-regular {
   @apply text-base sm:text-lg leading-[140%] sm:leading-[157%] tracking-[1%];
 }
 
@@ -34,6 +34,6 @@
   @apply text-base leading-[140%];
 }
 
-.text-label {
+.font-label {
   @apply text-sm leading-tight;
 }

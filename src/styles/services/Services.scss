@@ -1,29 +1,19 @@
 .services-container {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-
-  @apply mt-8 md:mt-16;
+  @apply flex flex-col items-stretch mt-8 md:mt-16;
 }
 
 .services-header {
-  margin-bottom: 24px;
-
-  @apply text-custom-secondary-dark;
+  @apply mb-6 text-custom-secondary-dark;
 }
 
 .services-item-box {
-  overflow: hidden;
-  border-radius: 16px;
+  @apply rounded-2xl overflow-hidden;
 }
 
 .services-item-wrap {
-  display: flex;
-  gap: 4px;
-
   background: #f9f9f9;
 
-  @apply flex-col md:flex-row p-4 sm:p-6;
+  @apply flex flex-col md:flex-row gap-1 p-4 sm:p-6;
 }
 
 .services-item-wrap:not(:last-child) {
@@ -31,11 +21,7 @@
 }
 
 .services-item {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-
-  @apply text-custom-secondary-dark gap-3 sm:gap-6 items-start sm:items-center;
+  @apply flex justify-between w-full text-custom-secondary-dark gap-3 sm:gap-6 items-start sm:items-center;
 }
 
 .services-item:hover label {
@@ -51,16 +37,7 @@
 }
 
 .service-checkbox {
-  appearance: none;
-  border-radius: 4px;
-  border: 2px solid #d0d5dd;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  transition: all 0.1s ease;
-  cursor: pointer;
-
-  @apply w-6 sm:w-8 h-6 sm:h-8 mt-1 sm:mt-0;
+  @apply w-6 sm:w-8 h-6 sm:h-8 mt-1 sm:mt-0 cursor-pointer rounded transition-all duration-100 bg-center bg-no-repeat bg-contain appearance-none border-2 border-[#d0d5dd];
 }
 
 .service-checkbox:checked {

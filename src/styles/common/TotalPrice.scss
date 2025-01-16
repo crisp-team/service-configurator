@@ -1,0 +1,73 @@
+.totalpris-container {
+  @media (max-width: 480px) {
+    .totalpris-container {
+      @apply flex-col gap-5;
+    }
+  }
+}
+
+.totalpris-content {
+  @apply md:w-64 lg:w-80 flex flex-col gap-2.5 flex-none;
+}
+
+.totalpris-row {
+  @apply gap-6 flex justify-between items-center;
+}
+
+.grunnpakke-content {
+  @apply flex flex-col justify-between items-start gap-2.5 text-left;
+}
+
+.service-card:last-child {
+  @apply border-b-0;
+}
+
+.grunnpakke-content,
+.service-info {
+  @apply md:max-w-[540px] md:pr-6;
+}
+
+.totalpris-label {
+  @apply font-lead text-custom-secondary-dark font-bold;
+}
+
+.totalpris-price {
+  @apply font-regular text-custom-accent-3 font-bold text-right flex-none;
+}
+
+.buttons-container {
+  @apply flex flex-row justify-center items-center gap-7;
+
+  @media (max-width: 480px) {
+    @apply flex-col items-stretch gap-3;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-card {
+    @apply flex-col;
+  }
+}
+
+@media print {
+  body {
+    @apply bg-white;
+  }
+  body * {
+    @apply invisible;
+  }
+
+  .printable-section-wrap,
+  .printable-section-wrap * {
+    @apply visible;
+  }
+
+  .printable-section-wrap {
+    padding: 0 !important;
+    @apply flex flex-col rounded-none border-none shadow-none absolute top-0 left-0 w-full h-full;
+  }
+
+  .print-footer {
+    @apply pt-16 mt-auto;
+  }
+}

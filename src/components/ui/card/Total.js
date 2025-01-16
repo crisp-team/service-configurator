@@ -1,5 +1,5 @@
 import React from 'react';
-import "../../../ServiceConfigurator.scss"
+
 export const Total = ({ children, className }) => {
     return (
         <div className={`container ${className}`}>

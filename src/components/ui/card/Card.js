@@ -1,5 +1,4 @@
 import React from 'react';
-import "../../../ServiceConfigurator.scss"
 
 export const Card = ({ children, className }) => {
   return (
@@ -14,7 +13,7 @@ export const CardContent = ({ children }) => {
 };
 
 export const CardHeader = ({ children }) => {
-  return <div className="card-header">{children}</div>;
+  return <div className="flex flex-col justify-center items-center gap-6">{children}</div>;
 };
 
 export const CardTitle = ({ children }) => {

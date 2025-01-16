@@ -1,17 +1,5 @@
 .active-button {
-  padding: 16px 32px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  border-radius: 16px;
-  color: #fff;
-  transition: background 0.2s ease;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 130%;
-
-  @apply bg-custom-primary;
+  @apply py-4 px-8 flex justify-center items-center gap-3 rounded-2xl text-xl font-bold text-white bg-custom-primary transition-colors duration-200;
 }
 
 .active-button:hover {
@@ -22,5 +10,4 @@
   color: rgba(22, 23, 24, 0.3);
   pointer-events: none;
   background-color: rgba(22, 23, 24, 0.06);
-  /* opacity: 0.6; */
 }
