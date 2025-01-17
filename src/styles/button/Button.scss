@@ -1,5 +1,5 @@
 .button-custom {
-  @apply py-4 px-6 flex justify-center items-center rounded-2xl font-bold border-2 border-transparent cursor-pointer transition-colors duration-200;
+  @apply py-4 px-6 flex justify-center items-center flex-grow float-none rounded-2xl font-bold border-2 border-transparent cursor-pointer transition-colors duration-200;
 }
 
 .button-custom:hover {

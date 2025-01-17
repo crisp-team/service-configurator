@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 // import { ChevronDown, ChevronRight, X, Info } from "lucide-react";
 import {
   Card,
@@ -32,6 +32,7 @@ const ServiceConfigurator = () => {
   const [totals, setTotals] = useState({ monthly: 0, oneTime: 0 });
   const [isOfferSaved, setIsOfferSaved] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [dataPackSorted, setDataPackSorted] = useState([]);
 
   useEffect(() => {
     const fetchAirtableData = async () => {
@@ -63,6 +64,7 @@ const ServiceConfigurator = () => {
               id: record.fields.id,
               size: record.fields.size,
               display: record.fields.display,
+              order: record.fields.order
             }))
           );
         } else {
@@ -250,6 +252,10 @@ const ServiceConfigurator = () => {
     };
   }, []);
 
+
+  useMemo(()=> setDataPackSorted(dataPacks?.sort((a, b) => a.order - b.order)),[dataPacks]);
+  
+
   return (
     <div className={`wrapper relative${isLoaded ? '' : ' is-loading'}`}>
       { isLoaded ? <></> : <LoaderComponent />}
@@ -267,7 +273,7 @@ const ServiceConfigurator = () => {
               <div>
                 <div className="mb-10 flex flex-col items-start gap-6 self-stretch">
                   <h2 className="heading-h4">Operatør</h2>
-                  <div className="flex gap-3 flex-wrap">
+                  <div className="flex gap-3 flex-wrap justify-between w-full">
                     {operators.map((op) => (
                       <button
                         key={op.id}
@@ -302,7 +308,8 @@ const ServiceConfigurator = () => {
                         className="datapack-input font-small"
                       />
                       <div className="datapack_buttons_container">
-                        {dataPacks.map((pack) => (
+                        {dataPackSorted?.map((pack) => {
+                          return(
                           <button
                             key={pack.id}
                             onClick={() => setSelectedDataPack(pack.id)}
@@ -314,7 +321,7 @@ const ServiceConfigurator = () => {
                           >
                             {pack.size}
                           </button>
-                        ))}
+                        )})}
                       </div>
                     </div>
                   </div>
