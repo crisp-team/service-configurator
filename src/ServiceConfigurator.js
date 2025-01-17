@@ -251,7 +251,7 @@ const ServiceConfigurator = () => {
   }, []);
 
   return (
-    <div className={`relative${isLoaded ? '' : ' is-loading'}`}>
+    <div className={`wrapper relative${isLoaded ? '' : ' is-loading'}`}>
       { isLoaded ? <></> : <LoaderComponent />}
       <Card>
         <CardHeader>
@@ -423,7 +423,7 @@ const ServiceConfigurator = () => {
               </div>
               {/* Grunnpakke */}
               {selectedOperator && selectedDataPack && (
-                <div className="py-6 flex flex-col border-b border-b-dark-bg">
+                <div className="py-6 flex flex-col sm:flex-row justify-between gap-2 sm:gap-10 border-b border-b-dark-bg">
                   <div className="grunnpakke-content">
                     <p className="font-regular text-custom-secondary-dark font-bold">
                       {operators.find((op) => op.id === selectedOperator).name}
@@ -441,7 +441,7 @@ const ServiceConfigurator = () => {
                           dataPacks.find((pack) => pack.id === selectedDataPack)
                             .display
                         }{" "}
-                        (Antall {quantity})
+                        (Antall {quantity} {})
                       </p>
 
                       {/* Ціна за одиницю */}
@@ -451,11 +451,18 @@ const ServiceConfigurator = () => {
                           : basePrice}
                         /per enhet
                       </p>
-                      <p className="font-regular text-custom-accent-3 font-bold text-right self-end">
-                        {typeof basePrice === "number"
-                          ? `kr ${basePrice.toFixed(2) * quantity}`
-                          : basePrice}
-                      </p>
+                      
+                    </div>
+                  </div>
+
+                  <div className="totalpris-content">
+                    <div className="totalpris-row">
+                      <p className="totalpris-label">Antall:</p>
+                      <p className="totalpris-price">
+                          {typeof basePrice === "number"
+                            ? `kr ${basePrice.toFixed(2) * quantity}`
+                            : basePrice}
+                        </p>
                     </div>
                   </div>
                 </div>

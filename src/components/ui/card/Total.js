@@ -2,14 +2,14 @@ import React from 'react';
 
 export const Total = ({ children, className }) => {
     return (
-        <div className={`container ${className}`}>
+        <div>
             {children}
         </div>
     );
 };
 
 export const TotalContent = ({ children }) => {
-    return <div className="card">{children}</div>;
+    return <div className="">{children}</div>;
 };
 
 export const TotalHeader = ({ children }) => {

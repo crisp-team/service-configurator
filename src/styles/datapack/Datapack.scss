@@ -3,7 +3,14 @@
 }
 
 .datapack_raw_container {
-  @apply flex flex-col md:flex-row gap-3 md:gap-4 items-start md:items-center font-bold;
+  @media screen and (min-width: 769px) {
+    @apply flex-row items-center;
+  }
+
+  @media screen and (max-width: 768px) {
+    @apply flex-col items-start;
+  }
+  @apply flex gap-3 md:gap-4 font-bold;
 }
 
 .datapack_raw_header {
@@ -11,7 +18,11 @@
 }
 
 .datapack-input {
-  @apply md:w-[120px] flex-none block py-4 px-6 text-center rounded-2xl bg-light-bg w-full border-2 border-transparent  text-custom-secondary-dark md:mr-6 transition-colors duration-200;
+  @media screen and (min-width: 769px) {
+    width: 120px;
+  }
+
+  @apply flex-none block py-4 px-6 text-center rounded-2xl bg-light-bg w-full border-2 border-transparent  text-custom-secondary-dark md:mr-6 transition-colors duration-200;
 }
 
 .datapack-input:hover {

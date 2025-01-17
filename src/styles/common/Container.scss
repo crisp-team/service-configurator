@@ -1,5 +1,17 @@
+.wrapper {
+  background-position: center 100px;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1345' height='423' fill='none' viewBox='0 0 1345 423'%3E%3Cpath stroke='%23F58263' stroke-width='2.12' d='m1032.17 395.227-26.72 26.721M429.237 32.389 402.516 59.11'/%3E%3Cpath fill='%23F58263' d='m350.104 16.509 11-11 11 11-11 11z'/%3E%3Cpath fill='%234FA0A6' d='m1213.29 168.167 5.867-6.116 5.867 6.116-5.867 6.116z' opacity='.5'/%3E%3Cpath fill='%234FA0A6' d='m1296.12 325.83 5.867-6.116 5.867 6.116-5.867 6.116zM717.116 35.633l5.867-6.116 5.867 6.116-5.867 6.115z'/%3E%3Cpath stroke='%234FA0A6' stroke-width='2.878' d='M0-1.439h50.279' transform='matrix(-.6923 .72162 -.6923 -.72162 1342.67 66.743)'/%3E%3Cpath fill='%234FA0A6' d='m69.74 300.714-18.57 20.9h9.285l-1.857 17.1 18.571-20.9h-9.285l1.857-17.1Z' opacity='.4'/%3E%3Cpath fill='%234FA0A6' stroke='%234FA0A6' stroke-width='.72' d='M1093.77 7.835c0 3.635-2.82 6.556-6.27 6.556-3.46 0-6.28-2.921-6.28-6.556 0-3.635 2.82-6.556 6.28-6.556 3.45 0 6.27 2.92 6.27 6.556Z'/%3E%3Cpath stroke='%234FA0A6' stroke-dasharray='11.28 4.51 11.28 11.28 4.51 11.28' d='M.709 5.509h126.92v63.81H.709z'/%3E%3Cpath stroke='%234FA0A6' stroke-dasharray='11.28 4.51 11.28 11.28 4.51 11.28' d='M80.565 45.896h88.049v44.267H80.565z' opacity='.2'/%3E%3Cg stroke='%234FA0A6' stroke-width='.72' opacity='.3'%3E%3Cpath d='m759.928 190.867 15.432-16.084a1.097 1.097 0 0 0 0-1.517l-15.432-16.085M743.768 190.867l15.431-16.084a1.095 1.095 0 0 0 0-1.517l-15.431-16.085M776.089 190.867l15.431-16.084a1.097 1.097 0 0 0 0-1.517l-15.431-16.085M792.245 190.867l15.431-16.084a1.095 1.095 0 0 0 0-1.517l-15.431-16.085M808.405 190.867l15.431-16.084a1.095 1.095 0 0 0 0-1.517l-15.431-16.085'/%3E%3C/g%3E%3Cg stroke='%234FA0A6' stroke-width='.72' opacity='.3'%3E%3Cpath d='m163.551 190.867-15.431-16.084a1.095 1.095 0 0 1 0-1.517l15.431-16.085M179.711 190.867l-15.431-16.084a1.095 1.095 0 0 1 0-1.517l15.431-16.085M147.391 190.867l-15.432-16.084a1.097 1.097 0 0 1 0-1.517l15.432-16.085M131.234 190.867l-15.431-16.084a1.097 1.097 0 0 1 0-1.517l15.431-16.085M115.074 190.867l-15.431-16.084a1.096 1.096 0 0 1 0-1.517l15.431-16.085'/%3E%3C/g%3E%3C/svg%3E");
+
+  @apply bg-contain xl:bg-auto;
+
+  @media screen and (max-width: 767px) {
+    background-position: center 50px;
+  }
+}
+
 .container {
   max-width: calc(1088px + 32px);
 
-  @apply gap-8 sm:gap-16 my-5 mx-auto px-4 flex flex-col self-stretch w-full max-h-full;
+  @apply pt-24 md:pt-32 lg:pt-52 pb-20 md:pb-28 lg:pb-32 mx-auto px-4 flex flex-col self-stretch gap-8 sm:gap-16 w-full max-h-full;
 }
