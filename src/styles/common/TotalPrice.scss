@@ -1,8 +1,6 @@
 .totalpris-container {
   @media (max-width: 480px) {
-    .totalpris-container {
-      @apply flex-col gap-5;
-    }
+    @apply flex-col gap-5;
   }
 }
 

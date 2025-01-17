@@ -236,6 +236,20 @@ const ServiceConfigurator = () => {
 
   };
 
+  useEffect(() => {
+    const print = (e) => {
+      if (e.data === 'print') {
+        window.print();
+      }
+    }
+
+    typeof window !== 'undefined' && window.addEventListener('message', print);
+
+    return () => {
+      typeof window !== 'undefined' && window.removeEventListener('message', print);
+    };
+  }, []);
+
   return (
     <div className={`relative${isLoaded ? '' : ' is-loading'}`}>
       { isLoaded ? <></> : <LoaderComponent />}

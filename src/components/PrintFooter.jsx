@@ -3,7 +3,7 @@ import { MainLogo } from "./MainLogo"
 
 export const PrintFooter = () => {
   return (
-    <div className="print-footer flex justify-between items-end gap-6 flex-col sm:flex-row pt-32 md:pt-56">
+    <div className="print-footer flex justify-between sm:items-end gap-6 flex-col sm:flex-row pt-32 md:pt-56">
       <div className="flex gap-6">
           <div className="">
               <p className="mb-1 font-regular text-custom-secondary-dark opacity-50">Email</p>
