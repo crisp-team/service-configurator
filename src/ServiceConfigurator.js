@@ -112,7 +112,7 @@ const ServiceConfigurator = () => {
 
         setTimeout(()=>{
           setIsLoaded(true);
-        },2000);
+        },1000);
       } catch (error) {
         console.error("Error fetching Airtable data:", error);
       }
@@ -237,10 +237,9 @@ const ServiceConfigurator = () => {
   };
 
   return (
-    <>
-    {
-      isLoaded ? <>
-        <Card>
+    <div className={`relative${isLoaded ? '' : ' is-loading'}`}>
+      { isLoaded ? <></> : <LoaderComponent />}
+      <Card>
         <CardHeader>
           <CardTitle>Tjenesteoversikt</CardTitle>
         </CardHeader>
@@ -308,7 +307,7 @@ const ServiceConfigurator = () => {
                 </div>
 
                 <div className="services-container">
-                  <h4 className="services-header heading-h6">
+                  <h4 className="services-header heading-h4">
                     Tilleggstjenester
                   </h4>
                   <div className="services-item-box">
@@ -570,10 +569,8 @@ const ServiceConfigurator = () => {
         </div>
       </Card>
 
-      <Total>{/*<TotalHeader></TotalHeader>*/}</Total></> : <LoaderComponent />
-    }
-
-    </>
+      <Total>{/*<TotalHeader></TotalHeader>*/}</Total>
+    </div>
   );
 };
 
