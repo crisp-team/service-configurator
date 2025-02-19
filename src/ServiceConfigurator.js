@@ -15,8 +15,8 @@ import { LoaderComponent } from "./components/loader/LoaderComponent";
 
 const ServiceConfigurator = () => {
   const AIRTABLE_API_KEY =
-    "patcaXmJ9vC3S6DsU.8258a1c6ba04d90df7c239bf98f841596112c8135c181378cebe737c4bc167d8";
-  const AIRTABLE_BASE_ID = "appGbjwYWNY96W6Vc"; //
+    "patAT0AzbWvWGLxKD.09d9751652548c278295aa70da9ab4134b09133e0805628a7b6ead59545aec24";
+  const AIRTABLE_BASE_ID = "appP8qFKtTcwB3TFK"; //
   const TABLE_NAME = "Offers";
 
   const [savedOffers, setSavedOffers] = useState([]);
