@@ -261,7 +261,7 @@ const ServiceConfigurator = () => {
       { isLoaded ? <></> : <LoaderComponent />}
       <Card>
         <CardHeader>
-          <CardTitle>Tjenesteoversikt</CardTitle>
+          <CardTitle>M2M Tjenesteoversikt</CardTitle>
         </CardHeader>
         {!isOfferSaved && (
           <>
@@ -332,7 +332,10 @@ const ServiceConfigurator = () => {
                     Tilleggstjenester
                   </h4>
                   <div className="services-item-box">
-                    {additionalServices.map((service,idx) => (
+                    {additionalServices.map((service,idx) => {
+                      console.log(service.oneTimePrice);
+                      
+                      return (
                       <div className="services-item-wrap" key={idx}>
                         <div key={service.id} className="services-item">
                           {/* Checkbox */}
@@ -380,15 +383,13 @@ const ServiceConfigurator = () => {
 
                         {/* Price Section */}
                         <p className="heading-h6 services-item-price">
-                          Kr {service.monthlyPrice.toFixed(2)}/md
-                          {/*{service.oneTimePrice && (*/}
-                          {/*    <p className="text-sm text-gray-500">*/}
-                          {/*        Engangssum: kr {service.oneTimePrice.toFixed(2)}*/}
-                          {/*    </p>*/}
-                          {/*)}*/}
+                          Kr {service.monthlyPrice.toFixed(2)}/mnd
+                          {service.oneTimePrice && (
+                          <p className="pt-1 sm:pt-1.5 text-sm text-gray-500">kr {service.oneTimePrice.toFixed(2)}/eng.s</p>
+                          )} 
                         </p>
                       </div>
-                    ))}
+                    )})}
                   </div>
                 </div>
               </div>
