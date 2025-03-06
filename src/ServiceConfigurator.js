@@ -171,7 +171,7 @@ const ServiceConfigurator = () => {
     //   const service = additionalServices.find(s => s.id === serviceId);
     //   return service?.name;
     // });
-    console.log(offer.additionalServices);
+    // console.log(offer.additionalServices);
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -192,7 +192,7 @@ const ServiceConfigurator = () => {
       });
 
       if (response.ok) {
-        console.log("Offer saved to Airtable!");
+        // console.log("Offer saved to Airtable!");
         setSavedOffers([...savedOffers, offer]);
         setOfferSavedMessage(true);
 
@@ -333,8 +333,6 @@ const ServiceConfigurator = () => {
                   </h4>
                   <div className="services-item-box">
                     {additionalServices.map((service,idx) => {
-                      console.log(service.oneTimePrice);
-                      
                       return (
                       <div className="services-item-wrap" key={idx}>
                         <div key={service.id} className="services-item">
@@ -382,12 +380,19 @@ const ServiceConfigurator = () => {
                         </div>
 
                         {/* Price Section */}
-                        <p className="heading-h6 services-item-price">
-                          Kr {service.monthlyPrice.toFixed(2)}/mnd
-                          {service.oneTimePrice && (
-                          <p className="pt-1 sm:pt-1.5 text-sm text-gray-500">kr {service.oneTimePrice.toFixed(2)}/eng.s</p>
-                          )} 
-                        </p>
+                        <div className="heading-h6 services-item-price">
+                          <p>
+                            {service?.monthlyPrice ? (
+                            `Kr ${service?.monthlyPrice?.toFixed(2)}/mnd`
+                            ) : <>-</>}
+                          </p>
+
+                          <p className="pt-1 sm:pt-1.5 text-sm text-gray-500">
+                            {service?.oneTimePrice ? (
+                          `Kr ${service?.oneTimePrice?.toFixed(2)}/eng.s`
+                          ) : <>-</>} 
+                          </p>
+                        </div>
                       </div>
                     )})}
                   </div>
@@ -419,7 +424,7 @@ const ServiceConfigurator = () => {
                     <div className="totalpris-row">
                       <p className="totalpris-label">Månedlig</p>
                       <p className="totalpris-price">
-                        kr {totals.monthly.toFixed(2)}
+                        kr {totals?.monthly?.toFixed(2)}
                       </p>
                     </div>
                   </div>
@@ -511,14 +516,14 @@ const ServiceConfigurator = () => {
                               <div className="totalpris-row">
                                 <p className="totalpris-label">Engangssum:</p>
                                 <p className="totalpris-price">
-                                  kr {service.oneTimePrice.toFixed(2)}
+                                  kr {service?.oneTimePrice ? service.oneTimePrice.toFixed(2) : <>-</>}
                                 </p>
                               </div>
                             )}
                             <div className="totalpris-row">
                               <p className="totalpris-label">Månedlig:</p>
                               <p className="totalpris-price">
-                                kr {service.monthlyPrice.toFixed(2)}
+                                kr {service?.monthlyPrice ? service?.monthlyPrice.toFixed(2) : <>-</>}
                               </p>
                             </div>
                           </div>
