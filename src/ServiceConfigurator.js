@@ -15,8 +15,10 @@ import { LoaderComponent } from "./components/loader/LoaderComponent";
 
 const ServiceConfigurator = () => {
   const AIRTABLE_API_KEY =
-    "patAT0AzbWvWGLxKD.09d9751652548c278295aa70da9ab4134b09133e0805628a7b6ead59545aec24";
-  const AIRTABLE_BASE_ID = "appP8qFKtTcwB3TFK"; //
+    // "patAT0AzbWvWGLxKD.09d9751652548c278295aa70da9ab4134b09133e0805628a7b6ead59545aec24";
+    "patVxV8HdjTMIYUFz.2cbb9340680eb067ae36966fbf8ae4086d74ebf851e7a05da0303731a8732f59"
+  // const AIRTABLE_BASE_ID = "appP8qFKtTcwB3TFK"; //
+  const AIRTABLE_BASE_ID = "appGbjwYWNY96W6Vc";
   const TABLE_NAME = "Offers";
 
   const [savedOffers, setSavedOffers] = useState([]);
@@ -58,6 +60,8 @@ const ServiceConfigurator = () => {
           { headers }
         );
 
+        console.log(additionalServicesResponse);
+
         if (dataPacksResponse?.data?.records) {
           setDataPacks(
             dataPacksResponse.data.records.map((record) => ({
@@ -94,8 +98,11 @@ const ServiceConfigurator = () => {
             monthlyPrice: record.fields.monthlyPrice,
             oneTimePrice: record.fields.oneTimePrice,
             features: record.fields.features,
+            multiplyOneTimePrice: record.fields.multiplyOneTimePrice
           }))
         );
+
+        
 
         const formattedPrices = pricesResponse.data.records.reduce(
           (acc, record) => {
@@ -145,10 +152,17 @@ const ServiceConfigurator = () => {
       if (serviceInfo) {
         monthly += serviceInfo.monthlyPrice * quantity;
         if (serviceInfo.oneTimePrice) {
-          oneTime += serviceInfo.oneTimePrice;
+          // Якщо multiplyOneTimePrice = true, множимо на quantity
+          console.log(serviceInfo.multiplyOneTimePrice);
+          if (serviceInfo.multiplyOneTimePrice) {
+            oneTime += serviceInfo.oneTimePrice * quantity;
+          } else {
+            oneTime += serviceInfo.oneTimePrice;
+          }
         }
       }
     });
+    console.log(oneTime)
 
     return { monthly, oneTime };
   };
@@ -411,7 +425,8 @@ const ServiceConfigurator = () => {
                       <div className="totalpris-row">
                         <p className="totalpris-label">Engangssum</p>
                         <p className="totalpris-price">
-                          kr {totals.oneTime.toFixed(2)}
+                       {totals.oneTime.toFixed(2)}
+
                         </p>
                       </div>
                     )}
@@ -510,7 +525,8 @@ const ServiceConfigurator = () => {
                               <div className="totalpris-row">
                                 <p className="totalpris-label">Engangssum:</p>
                                 <p className="totalpris-price">
-                                  kr {service.oneTimePrice.toFixed(2)}
+                                kr {service.oneTimePrice.toFixed(2)}
+
                                 </p>
                               </div>
                             )}
