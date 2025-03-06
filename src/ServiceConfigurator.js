@@ -417,14 +417,14 @@ const ServiceConfigurator = () => {
                       <div className="totalpris-row">
                         <p className="totalpris-label">Engangssum</p>
                         <p className="totalpris-price">
-                          kr {totals.oneTime.toFixed(2)}
+                          {totals?.oneTime ? `kr ${totals?.oneTime?.toFixed(2)}` : <>-</>}
                         </p>
                       </div>
                     )}
                     <div className="totalpris-row">
                       <p className="totalpris-label">Månedlig</p>
                       <p className="totalpris-price">
-                        kr {totals?.monthly?.toFixed(2)}
+                        {totals?.monthly ? `kr ${totals?.monthly?.toFixed(2)}` : <>-</>}
                       </p>
                     </div>
                   </div>
@@ -516,14 +516,14 @@ const ServiceConfigurator = () => {
                               <div className="totalpris-row">
                                 <p className="totalpris-label">Engangssum:</p>
                                 <p className="totalpris-price">
-                                  kr {service?.oneTimePrice ? service.oneTimePrice.toFixed(2) : <>-</>}
+                                   {service?.oneTimePrice ? `kr ${service.oneTimePrice.toFixed(2)}` : <>-</>}
                                 </p>
                               </div>
                             )}
                             <div className="totalpris-row">
                               <p className="totalpris-label">Månedlig:</p>
                               <p className="totalpris-price">
-                                kr {service?.monthlyPrice ? service?.monthlyPrice.toFixed(2) : <>-</>}
+                                 {service?.monthlyPrice ? `kr ${service?.monthlyPrice.toFixed(2)}` : <>-</>}
                               </p>
                             </div>
                           </div>
