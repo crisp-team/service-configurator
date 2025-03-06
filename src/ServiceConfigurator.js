@@ -431,12 +431,9 @@ const ServiceConfigurator = () => {
                       <div className="totalpris-row">
                         <p className="totalpris-label">Engangssum</p>
                         <p className="totalpris-price">
-<<<<<<< HEAD
+
                        {totals.oneTime.toFixed(2)}
 
-=======
-                          {totals?.oneTime ? `kr ${totals?.oneTime?.toFixed(2)}` : <>-</>}
->>>>>>> fa956118776fd850a48e5e9a677586188d6089f7
                         </p>
                       </div>
                     )}
@@ -535,12 +532,9 @@ const ServiceConfigurator = () => {
                               <div className="totalpris-row">
                                 <p className="totalpris-label">Engangssum:</p>
                                 <p className="totalpris-price">
-<<<<<<< HEAD
-                                kr {service.oneTimePrice.toFixed(2)}
-
-=======
+                                  
                                    {service?.oneTimePrice ? `kr ${service.oneTimePrice.toFixed(2)}` : <>-</>}
->>>>>>> fa956118776fd850a48e5e9a677586188d6089f7
+
                                 </p>
                               </div>
                             )}
