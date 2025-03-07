@@ -14,12 +14,11 @@ import { PrintFooter } from "./components/PrintFooter";
 import { LoaderComponent } from "./components/loader/LoaderComponent";
 
 const ServiceConfigurator = () => {
-  const AIRTABLE_API_KEY =
-    // "patAT0AzbWvWGLxKD.09d9751652548c278295aa70da9ab4134b09133e0805628a7b6ead59545aec24";
-    "patVxV8HdjTMIYUFz.2cbb9340680eb067ae36966fbf8ae4086d74ebf851e7a05da0303731a8732f59"
-  // const AIRTABLE_BASE_ID = "appP8qFKtTcwB3TFK"; //
-  const AIRTABLE_BASE_ID = "appGbjwYWNY96W6Vc";
-  const TABLE_NAME = "Offers";
+
+  const AIRTABLE_API_KEY = process.env.REACT_APP_AIRTABLE_API_KEY;
+  const AIRTABLE_BASE_ID = process.env.REACT_APP_AIRTABLE_BASE_ID;
+  const TABLE_NAME = process.env.REACT_APP_TABLE_NAME;
+
 
   const [savedOffers, setSavedOffers] = useState([]);
   const [operators, setOperators] = useState([]);
@@ -532,7 +531,7 @@ const ServiceConfigurator = () => {
                               <div className="totalpris-row">
                                 <p className="totalpris-label">Engangssum:</p>
                                 <p className="totalpris-price">
-                                  
+
                                    {service?.oneTimePrice ? `kr ${service.oneTimePrice.toFixed(2)}` : <>-</>}
 
                                 </p>
