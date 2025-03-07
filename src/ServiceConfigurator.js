@@ -17,6 +17,7 @@ const ServiceConfigurator = () => {
 
   const AIRTABLE_API_KEY = process.env.REACT_APP_AIRTABLE_API_KEY;
   const AIRTABLE_BASE_ID = process.env.REACT_APP_AIRTABLE_BASE_ID;
+  console.log(AIRTABLE_API_KEY);
   const TABLE_NAME = process.env.REACT_APP_TABLE_NAME;
 
 
