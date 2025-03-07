@@ -17,7 +17,6 @@ const ServiceConfigurator = () => {
 
   const AIRTABLE_API_KEY = process.env.REACT_APP_AIRTABLE_API_KEY;
   const AIRTABLE_BASE_ID = process.env.REACT_APP_AIRTABLE_BASE_ID;
-  console.log(AIRTABLE_API_KEY);
   const TABLE_NAME = process.env.REACT_APP_TABLE_NAME;
 
 
@@ -60,8 +59,6 @@ const ServiceConfigurator = () => {
           { headers }
         );
 
-        console.log(additionalServicesResponse);
-
         if (dataPacksResponse?.data?.records) {
           setDataPacks(
             dataPacksResponse.data.records.map((record) => ({
@@ -84,12 +81,6 @@ const ServiceConfigurator = () => {
           }))
         );
 
-        // setDataPacks(dataPacksResponse.data.records.map(record => ({
-        //   id: record.fields.id,
-        //   size: record.fields.size,
-        //   display: record.fields.display,
-        // })));
-
         setAdditionalServices(
           additionalServicesResponse.data.records.map((record) => ({
             id: record.fields.id,
@@ -101,8 +92,6 @@ const ServiceConfigurator = () => {
             multiplyOneTimePrice: record.fields.multiplyOneTimePrice
           }))
         );
-
-        
 
         const formattedPrices = pricesResponse.data.records.reduce(
           (acc, record) => {
@@ -134,10 +123,12 @@ const ServiceConfigurator = () => {
     return prices[operator]?.[pack] || "Ved forespørsel";
   };
 
-  const basePrice =
-    typeof getPriceForPack(selectedOperator, selectedDataPack) === "number"
-      ? getPriceForPack(selectedOperator, selectedDataPack)
-      : 0;
+const basePrice = getPriceForPack(selectedOperator.trim().toLowerCase(), selectedDataPack.trim().toLowerCase());
+
+  // const basePrice =
+  //   typeof getPriceForPack(selectedOperator, selectedDataPack) === "number"
+  //     ? getPriceForPack(selectedOperator, selectedDataPack)
+  //     : 0;
 
   const calculateTotal = () => {
     const basePrice =
@@ -152,8 +143,7 @@ const ServiceConfigurator = () => {
       if (serviceInfo) {
         monthly += serviceInfo.monthlyPrice * quantity;
         if (serviceInfo.oneTimePrice) {
-          // Якщо multiplyOneTimePrice = true, множимо на quantity
-          console.log(serviceInfo.multiplyOneTimePrice);
+          
           if (serviceInfo.multiplyOneTimePrice) {
             oneTime += serviceInfo.oneTimePrice * quantity;
           } else {
@@ -162,7 +152,6 @@ const ServiceConfigurator = () => {
         }
       }
     });
-    console.log(oneTime)
 
     return { monthly, oneTime };
   };
@@ -181,11 +170,6 @@ const ServiceConfigurator = () => {
   const saveOfferToAirtable = async (offer) => {
     const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_NAME}`;
 
-    // const selectedServiceNames = selectedServices.map(serviceId => {
-    //   const service = additionalServices.find(s => s.id === serviceId);
-    //   return service?.name;
-    // });
-    // console.log(offer.additionalServices);
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -199,18 +183,15 @@ const ServiceConfigurator = () => {
             DataPack: offer.dataPack,
             Quantity: offer.quantity,
             AdditionalServices: offer.additionalServices,
-            Monthly: parseFloat(offer.monthly),
-            OneTime: parseFloat(offer.oneTime),
+            MonthlyPrice: parseFloat(offer.monthly),
+            TotalSum: parseFloat(offer.oneTime),
           },
         }),
       });
 
       if (response.ok) {
-        // console.log("Offer saved to Airtable!");
         setSavedOffers([...savedOffers, offer]);
         setOfferSavedMessage(true);
-
-        // setIsButtonDisabled(true);
 
         setTimeout(() => {
           setOfferSavedMessage(false);
@@ -429,7 +410,7 @@ const ServiceConfigurator = () => {
                   <div className="totalpris-content">
                     {totals.oneTime > 0 && (
                       <div className="totalpris-row">
-                        <p className="totalpris-label">Engangssum</p>
+                        <p className="totalpris-label">Engangssum12</p>
                         <p className="totalpris-price">
                           {totals?.oneTime ? `kr ${totals?.oneTime?.toFixed(2)}` : <></>}
                         </p>
