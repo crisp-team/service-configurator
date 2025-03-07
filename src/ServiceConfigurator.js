@@ -397,13 +397,13 @@ const ServiceConfigurator = () => {
                           <p>
                             {service?.monthlyPrice ? (
                             `Kr ${service?.monthlyPrice?.toFixed(2)}/mnd`
-                            ) : <>-</>}
+                            ) : <>- /mnd</>}
                           </p>
 
                           <p className="pt-1 sm:pt-1.5 text-sm text-gray-500">
                             {service?.oneTimePrice ? (
                           `Kr ${service?.oneTimePrice?.toFixed(2)}/eng.s`
-                          ) : <>-</>} 
+                          ) : <>- /eng.s</>} 
                           </p>
                         </div>
                       </div>
@@ -430,16 +430,14 @@ const ServiceConfigurator = () => {
                       <div className="totalpris-row">
                         <p className="totalpris-label">Engangssum</p>
                         <p className="totalpris-price">
-
-                       {totals.oneTime.toFixed(2)}
-
+                          {totals?.oneTime ? `kr ${totals?.oneTime?.toFixed(2)}` : <></>}
                         </p>
                       </div>
                     )}
                     <div className="totalpris-row">
                       <p className="totalpris-label">Månedlig</p>
                       <p className="totalpris-price">
-                        {totals?.monthly ? `kr ${totals?.monthly?.toFixed(2)}` : <>-</>}
+                        {totals?.monthly ? `kr ${totals?.monthly?.toFixed(2)}` : <></>}
                       </p>
                     </div>
                   </div>
@@ -531,16 +529,20 @@ const ServiceConfigurator = () => {
                               <div className="totalpris-row">
                                 <p className="totalpris-label">Engangssum:</p>
                                 <p className="totalpris-price">
+<<<<<<< HEAD
 
                                    {service?.oneTimePrice ? `kr ${service.oneTimePrice.toFixed(2)}` : <>-</>}
 
+=======
+                                   {service?.oneTimePrice ? `kr ${service.oneTimePrice.toFixed(2)}` : <></>}
+>>>>>>> 51d486979cfac3200be1f70362707dbfcc7ee059
                                 </p>
                               </div>
                             )}
                             <div className="totalpris-row">
                               <p className="totalpris-label">Månedlig:</p>
                               <p className="totalpris-price">
-                                 {service?.monthlyPrice ? `kr ${service?.monthlyPrice.toFixed(2)}` : <>-</>}
+                                 {service?.monthlyPrice ? `kr ${service?.monthlyPrice.toFixed(2)}` : <></>}
                               </p>
                             </div>
                           </div>
