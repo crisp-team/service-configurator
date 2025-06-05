@@ -141,13 +141,18 @@ const basePrice = getPriceForPack(selectedOperator.trim().toLowerCase(), selecte
     selectedServices.forEach((service) => {
       const serviceInfo = additionalServices.find((s) => s.id === service);
       if (serviceInfo) {
-        monthly += serviceInfo.monthlyPrice * quantity;
-        if (serviceInfo.oneTimePrice) {
-          
-          if (serviceInfo.multiplyOneTimePrice) {
-            oneTime += serviceInfo.oneTimePrice * quantity;
-          } else {
-            oneTime += serviceInfo.oneTimePrice;
+        // Special handling for Multioperatør - add to monthly price
+        if (service === "multioperator") {
+          monthly += serviceInfo.oneTimePrice || 0;
+        } else {
+          // Regular services
+          monthly += serviceInfo.monthlyPrice || 0;
+          if (serviceInfo.oneTimePrice) {
+            if (serviceInfo.multiplyOneTimePrice) {
+              oneTime += serviceInfo.oneTimePrice * quantity;
+            } else {
+              oneTime += serviceInfo.oneTimePrice;
+            }
           }
         }
       }
@@ -410,7 +415,7 @@ const basePrice = getPriceForPack(selectedOperator.trim().toLowerCase(), selecte
                   <div className="totalpris-content">
                     {totals.oneTime > 0 && (
                       <div className="totalpris-row">
-                        <p className="totalpris-label">Engangssum12</p>
+                        <p className="totalpris-label">Engangssum</p>
                         <p className="totalpris-price">
                           {totals?.oneTime ? `kr ${totals?.oneTime?.toFixed(2)}` : <></>}
                         </p>
