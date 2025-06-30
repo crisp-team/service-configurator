@@ -35,6 +35,8 @@ const ServiceConfigurator = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [dataPackSorted, setDataPackSorted] = useState([]);
 
+console.log("Component rendered");
+
   useEffect(() => {
     const fetchAirtableData = async () => {
       try {
@@ -116,8 +118,10 @@ const ServiceConfigurator = () => {
       }
     };
 
-    fetchAirtableData();
+    fetchAirtableData(additionalServices);
   }, []);
+
+  console.log(quantity);
 
   const getPriceForPack = (operator, pack) => {
     return prices[operator]?.[pack] || "Ved forespørsel";
@@ -135,11 +139,33 @@ const basePrice = getPriceForPack(selectedOperator.trim().toLowerCase(), selecte
       typeof getPriceForPack(selectedOperator, selectedDataPack) === "number"
         ? getPriceForPack(selectedOperator, selectedDataPack)
         : 0;
+    // Base price is always monthly and multiplied by quantity
     let monthly = basePrice * quantity;
     let oneTime = 0;
 
     selectedServices.forEach((service) => {
       const serviceInfo = additionalServices.find((s) => s.id === service);
+      // if (serviceInfo) {
+      //   // Add monthly price to monthly total (if exists)
+      //   if (serviceInfo.monthlyPrice) {
+          
+      //     // // Apply multiplication if the multiplyOneTimePrice flag is set
+      //     if (serviceInfo.multiplyOneTimePrice) {
+      //       monthly += serviceInfo.monthlyPrice * quantity;
+      //     } else {
+      //       monthly += serviceInfo.monthlyPrice;
+      //     }
+      //   }
+        
+      //   // Add one-time price to one-time total (if exists)
+      //   // if (serviceInfo.oneTimePrice) {
+      //   //   if (serviceInfo.multiplyOneTimePrice) {
+      //   //     oneTime += serviceInfo.oneTimePrice * quantity;
+      //   //   }
+      //   //    else {
+      //   //     oneTime += serviceInfo.oneTimePrice;
+      //   //   }
+      //   // }
       if (serviceInfo) {
         // Special handling for Multioperatør - add to monthly price
         if (service === "multioperator") {
@@ -161,10 +187,13 @@ const basePrice = getPriceForPack(selectedOperator.trim().toLowerCase(), selecte
     return { monthly, oneTime };
   };
 
+
   // const totals = calculateTotal();
   useEffect(() => {
     // Викликати calculateTotal кожного разу, коли змінюються залежності
+     
     const newTotals = calculateTotal();
+    console.log('New totals:', newTotals);
     setTotals(newTotals);
   }, [selectedOperator, selectedDataPack, quantity, selectedServices]);
 
@@ -368,13 +397,6 @@ const basePrice = getPriceForPack(selectedOperator.trim().toLowerCase(), selecte
                               <p className="font-small opacity-60">
                                 {service.description}
                               </p>
-                              {/*{service.features?.length > 0 && (*/}
-                              {/*    <ul className="list-disc list-inside mt-2 text-sm text-gray-500">*/}
-                              {/*        {service.features.map((feature, index) => (*/}
-                              {/*            <li key={index}>{feature}</li>*/}
-                              {/*        ))}*/}
-                              {/*    </ul>*/}
-                              {/*)}*/}
                             </label>
                           </div>
                         </div>
@@ -424,7 +446,7 @@ const basePrice = getPriceForPack(selectedOperator.trim().toLowerCase(), selecte
                     <div className="totalpris-row">
                       <p className="totalpris-label">Månedlig</p>
                       <p className="totalpris-price">
-                        {totals?.monthly ? `kr ${totals?.monthly?.toFixed(2)}` : <></>}
+                        {typeof totals.monthly === 'number' ? `kr ${totals.monthly.toFixed(2)}` : ''}
                       </p>
                     </div>
                   </div>
@@ -473,68 +495,67 @@ const basePrice = getPriceForPack(selectedOperator.trim().toLowerCase(), selecte
                       <p className="totalpris-label">Antall:</p>
                       <p className="totalpris-price">
                           {typeof basePrice === "number"
-                            ? `kr ${basePrice.toFixed(2) * quantity}`
-                            : basePrice}
+        ? `kr ${(basePrice * quantity).toFixed(2)}`
+        : basePrice}
                         </p>
                     </div>
                   </div>
                 </div>
               )}
               {/* Tilleggstjenester */}
-              {selectedServices.length > 0 && (
-                <div className="text-custom-secondary-dark font-small font-medium flex flex-col flex-wrap md:flex-nowrap">
-                  {selectedServices.map((serviceId) => {
-                    const service = additionalServices.find(
-                      (s) => s.id === serviceId
-                    );
-                    return (
-                      <div key={serviceId} className="py-6 flex flex-col border-b border-b-dark-bg">
-                        <div className="flex justify-between flex-col md:flex-row gap-6 md:items-start">
-                          <div className="service-info">
-                            <h5 className="font-regular font-bold">
-                              {service.name}
-                            </h5>
-                            <p className="mt-2 sm:mt-4">
-                              {service.description}
-                            </p>
-                            {service.features?.length > 0 && (
-                              <div className="mt-2">
-                                <p className="font-small">Inkluderer:</p>
+             {/* 2. Fix the individual service price display in Tilleggstjenester section */}
+{selectedServices.map((serviceId) => {
+  const service = additionalServices.find((s) => s.id === serviceId);
+  
+  // Calculate actual prices based on quantity and multiplier flags
+const isMultiply = service?.multiplyOneTimePrice === true;
+const actualOneTimePrice = service?.oneTimePrice 
+  ? (isMultiply ? service.oneTimePrice : service.oneTimePrice)
+  : 0;
+  
+  const actualMonthlyPrice = service?.monthlyPrice 
+    ? service.monthlyPrice * quantity  // Monthly should always multiply by quantity
+    : 0;
 
-                                <ul className="mt-2 flex flex-col pl-5 gap-2 list-disc">
-                                  {service.features.map((feature, index) => (
-                                    <li key={index} className="marker:text-custom-primary">
-                                      {feature}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-                          </div>
-                          <div className="totalpris-content">
-                            {service.oneTimePrice > 0 && (
-                              <div className="totalpris-row">
-                                <p className="totalpris-label">Engangssum:</p>
-                                <p className="totalpris-price">
-
-
-                                   {service?.oneTimePrice ? `kr ${service.oneTimePrice.toFixed(2)}` : <></>}
-                                </p>
-                              </div>
-                            )}
-                            <div className="totalpris-row">
-                              <p className="totalpris-label">Månedlig:</p>
-                              <p className="totalpris-price">
-                                 {service?.monthlyPrice ? `kr ${service?.monthlyPrice.toFixed(2)}` : <></> }
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+  return (
+    <div key={serviceId} className="py-6 flex flex-col border-b border-b-dark-bg">
+      <div className="flex justify-between flex-col md:flex-row gap-6 md:items-start">
+        <div className="service-info">
+          <h5 className="font-regular font-bold">{service.name}</h5>
+          <p className="mt-2 sm:mt-4">{service.description}</p>
+          {service.features?.length > 0 && (
+            <div className="mt-2">
+              <p className="font-small">Inkluderer:</p>
+              <ul className="mt-2 flex flex-col pl-5 gap-2 list-disc">
+                {service.features.map((feature, index) => (
+                  <li key={index} className="marker:text-custom-primary">
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+        <div className="totalpris-content">
+          {actualOneTimePrice > 0 && (
+            <div className="totalpris-row">
+              <p className="totalpris-label">Engangssum:</p>
+              <p className="totalpris-price">
+                kr {actualOneTimePrice.toFixed(2)}
+              </p>
+            </div>
+          )}
+          <div className="totalpris-row">
+            <p className="totalpris-label">Månedlig:</p>
+            <p className="totalpris-price">
+              {actualMonthlyPrice > 0 ? `kr ${actualMonthlyPrice.toFixed(2)}` : "kr 0.00"}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+})}
 
               {/* Success message */}
               {/* {offerSavedMessage && (
