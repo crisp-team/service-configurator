@@ -35,7 +35,6 @@ const ServiceConfigurator = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [dataPackSorted, setDataPackSorted] = useState([]);
 
-console.log("Component rendered");
 
   useEffect(() => {
     const fetchAirtableData = async () => {
@@ -144,45 +143,27 @@ const basePrice = getPriceForPack(selectedOperator.trim().toLowerCase(), selecte
     let oneTime = 0;
 
     selectedServices.forEach((service) => {
-      const serviceInfo = additionalServices.find((s) => s.id === service);
-      // if (serviceInfo) {
-      //   // Add monthly price to monthly total (if exists)
-      //   if (serviceInfo.monthlyPrice) {
-          
-      //     // // Apply multiplication if the multiplyOneTimePrice flag is set
-      //     if (serviceInfo.multiplyOneTimePrice) {
-      //       monthly += serviceInfo.monthlyPrice * quantity;
-      //     } else {
-      //       monthly += serviceInfo.monthlyPrice;
-      //     }
-      //   }
-        
-      //   // Add one-time price to one-time total (if exists)
-      //   // if (serviceInfo.oneTimePrice) {
-      //   //   if (serviceInfo.multiplyOneTimePrice) {
-      //   //     oneTime += serviceInfo.oneTimePrice * quantity;
-      //   //   }
-      //   //    else {
-      //   //     oneTime += serviceInfo.oneTimePrice;
-      //   //   }
-      //   // }
-      if (serviceInfo) {
-        // Special handling for Multioperatør - add to monthly price
-        if (service === "multioperator") {
-          monthly += serviceInfo.oneTimePrice || 0;
-        } else {
-          // Regular services
-          monthly += serviceInfo.monthlyPrice || 0;
-          if (serviceInfo.oneTimePrice) {
-            if (serviceInfo.multiplyOneTimePrice) {
-              oneTime += serviceInfo.oneTimePrice * quantity;
-            } else {
-              oneTime += serviceInfo.oneTimePrice;
-            }
-          }
-        }
+  const serviceInfo = additionalServices.find((s) => s.id === service);
+  if (serviceInfo) {
+    // Add monthly price
+    if (serviceInfo.monthlyPrice) {
+      if (serviceInfo.multiplyOneTimePrice) {
+        monthly += serviceInfo.monthlyPrice * quantity;
+      } else {
+        monthly += serviceInfo.monthlyPrice;
       }
-    });
+    }
+
+    // ✅ Add one-time price
+    if (serviceInfo.oneTimePrice) {
+      if (serviceInfo.multiplyOneTimePrice) {
+        oneTime += serviceInfo.oneTimePrice;
+      } else {
+        oneTime += serviceInfo.oneTimePrice;
+      }
+    }
+  }
+  });
 
     return { monthly, oneTime };
   };
