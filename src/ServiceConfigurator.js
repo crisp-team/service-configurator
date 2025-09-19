@@ -156,11 +156,13 @@ const basePrice = getPriceForPack(selectedOperator.trim().toLowerCase(), selecte
 
     // ✅ Add one-time price
     if (serviceInfo.oneTimePrice) {
-      if (serviceInfo.multiplyOneTimePrice) {
-        oneTime += serviceInfo.oneTimePrice;
-      } else {
-        oneTime += serviceInfo.oneTimePrice;
-      }
+      oneTime += serviceInfo.oneTimePrice;
+      
+      // if (serviceInfo.multiplyOneTimePrice) {
+      //   oneTime += serviceInfo.oneTimePrice;
+      // } else {
+      //   oneTime += serviceInfo.oneTimePrice;
+      // }
     }
   }
   });
@@ -344,60 +346,108 @@ const basePrice = getPriceForPack(selectedOperator.trim().toLowerCase(), selecte
                   <div className="services-item-box">
                     {additionalServices.map((service,idx) => {
                       return (
-                      <div className="services-item-wrap" key={idx}>
-                        <div key={service.id} className="services-item">
-                          {/* Checkbox */}
-                          <input
-                            type="checkbox"
-                            id={`service-${service.id}`}
-                            className="service-checkbox"
-                            checked={selectedServices.includes(service.id)}
-                            onChange={() => {
-                              if (selectedServices.includes(service.id)) {
-                                setSelectedServices((prev) =>
-                                  prev.filter((id) => id !== service.id)
-                                );
-                              } else {
-                                setSelectedServices((prev) => [
-                                  ...prev,
-                                  service.id,
-                                ]);
-                              }
-                            }}
-                          />
+                        <div className="services-item-wrap" key={idx}>
+                          <div key={service.id} className="services-item">
+                            {/* Checkbox */}
+                            <input
+                              type="checkbox"
+                              id={`service-${service.id}`}
+                              className="service-checkbox"
+                              checked={selectedServices.includes(service.id)}
+                              onChange={() => {
+                                if (selectedServices.includes(service.id)) {
+                                  setSelectedServices((prev) =>
+                                    prev.filter((id) => id !== service.id)
+                                  );
+                                } else {
+                                  setSelectedServices((prev) => [
+                                    ...prev,
+                                    service.id,
+                                  ]);
+                                }
+                              }}
+                            />
 
-                          {/* Service Information */}
-                          <div className="flex-1 select-none">
-                            <label
-                              htmlFor={`service-${service.id}`}
-                              className="block cursor-pointer transition-opacity"
-                            >
-                              <h5 className="mb-2 heading-h6">
-                                {service.name}
-                              </h5>
-                              <p className="font-small opacity-60">
-                                {service.description}
-                              </p>
-                            </label>
+                            {/* Service Information */}
+                            <div className="flex-1 select-none">
+                              <label
+                                htmlFor={`service-${service.id}`}
+                                className="block cursor-pointer transition-opacity"
+                              >
+                                <h5 className="mb-2 heading-h6">
+                                  {service.name}
+                                </h5>
+                                <p className="font-small opacity-60">
+                                  {service.description}
+                                </p>
+                              </label>
+                            </div>
+                          </div>
+
+                          {/* Price Section */}
+                          <div className="heading-h6 services-item-price">
+                            {/* <p>
+                              {service?.monthlyPrice ? (
+                                `Kr ${service?.monthlyPrice?.toFixed(2)}/mnd`
+                              ) : (
+                                <>- /mnd</>
+                              )}
+                            </p>
+
+                            <p className="pt-1 sm:pt-1.5 text-sm text-gray-500">
+                              {service?.oneTimePrice ? (
+                                `Kr ${service?.oneTimePrice?.toFixed(2)}/eng.s`
+                              ) : (
+                                <>- /eng.s</>
+                              )}
+                            </p> */}
+
+                            {service?.monthlyPrice && service?.oneTimePrice ? (
+                              <>
+                                <p>
+                                  {service?.monthlyPrice ? (
+                                    `Kr ${service?.monthlyPrice?.toFixed(
+                                      2
+                                    )}/mnd`
+                                  ) : (
+                                    <></>
+                                  )}
+                                </p>
+
+                                <p className="pt-1 sm:pt-1.5 text-sm text-gray-500">
+                                  {service?.oneTimePrice ? (
+                                    `+Kr ${service?.oneTimePrice?.toFixed(
+                                      2
+                                    )}/eng.s`
+                                  ) : (
+                                    <></>
+                                  )}
+                                </p>
+                              </>
+                            ) : (
+                              <>
+                                {service?.monthlyPrice ? (
+                                  <p>
+                                    Kr {service?.monthlyPrice?.toFixed(2)}
+                                    /mnd
+                                  </p>
+                                ) : (
+                                  <>
+                                    {service?.oneTimePrice ? (
+                                      <p>
+                                        Kr {service?.oneTimePrice?.toFixed(2)}
+                                        /eng.s
+                                      </p>
+                                    ) : (
+                                      <></>
+                                    )}
+                                  </>
+                                )}
+                              </>
+                            )}
                           </div>
                         </div>
-
-                        {/* Price Section */}
-                        <div className="heading-h6 services-item-price">
-                          <p>
-                            {service?.monthlyPrice ? (
-                            `Kr ${service?.monthlyPrice?.toFixed(2)}/mnd`
-                            ) : <>- /mnd</>}
-                          </p>
-
-                          <p className="pt-1 sm:pt-1.5 text-sm text-gray-500">
-                            {service?.oneTimePrice ? (
-                          `Kr ${service?.oneTimePrice?.toFixed(2)}/eng.s`
-                          ) : <>- /eng.s</>} 
-                          </p>
-                        </div>
-                      </div>
-                    )})}
+                      );})}
                   </div>
                 </div>
               </div>
