@@ -6,20 +6,19 @@ import {
   CardHeader,
   CardTitle,
 } from "./components/ui/card/Card";
-import {
-  Total /*, TotalContent, TotalHeader*/,
-} from "./components/ui/card/Total";
+import { Total /*, TotalContent, TotalHeader*/ } from "./components/ui/card/Total";
 
 import axios from "axios";
 // import {Alert, AlertTitle, AlertDescription} from './components/ui/alert';
 import { PrintFooter } from "./components/PrintFooter";
 import { LoaderComponent } from "./components/loader/LoaderComponent";
-import { calculateServiceCost } from "./utils/calculateServiceCost";
 
 const ServiceConfigurator = () => {
+
   const AIRTABLE_API_KEY = process.env.REACT_APP_AIRTABLE_API_KEY;
   const AIRTABLE_BASE_ID = process.env.REACT_APP_AIRTABLE_BASE_ID;
   const TABLE_NAME = process.env.REACT_APP_TABLE_NAME;
+
 
   const [savedOffers, setSavedOffers] = useState([]);
   const [operators, setOperators] = useState([]);
@@ -31,13 +30,11 @@ const ServiceConfigurator = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedServices, setSelectedServices] = useState([]);
   const [offerSavedMessage, setOfferSavedMessage] = useState(false);
-  const [totals, setTotals] = useState({ monthly: 0, oneTime: 0, total: 0 });
+  const [totals, setTotals] = useState({ monthly: 0, oneTime: 0 });
   const [isOfferSaved, setIsOfferSaved] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [dataPackSorted, setDataPackSorted] = useState([]);
-  const [simCount, setSimCount] = useState(1); // use simCount for per-SIM multipliers
 
-  const monthsCount = 12;
 
   useEffect(() => {
     const fetchAirtableData = async () => {
@@ -69,48 +66,42 @@ const ServiceConfigurator = () => {
               id: record.fields.id,
               size: record.fields.size,
               display: record.fields.display,
-              order: record.fields.order ?? 0,
+              order: record.fields.order
             }))
           );
         } else {
-          console.warn("No records found in the API response for dataPacks");
+          console.warn("No records found in the API response");
           setDataPacks([]);
         }
 
         setOperators(
-          (operatorsResponse.data.records || []).map((record) => ({
+          operatorsResponse.data.records.map((record) => ({
             id: record.fields.id,
             name: record.fields.name,
             description: record.fields.description,
           }))
         );
 
-        // map additional services ensuring correct field names from TЗ
         setAdditionalServices(
-          (additionalServicesResponse.data.records || []).map((record) => ({
+          additionalServicesResponse.data.records.map((record) => ({
             id: record.fields.id,
             name: record.fields.name,
             description: record.fields.description,
-            monthlyPrice: record.fields.monthlyPrice ?? 0,
-            oneTimePrice: record.fields.oneTimePrice ?? 0,
-            features: record.fields.features || [],
-            // Use exact names from ТЗ:
-            multiplyOneTimeBySimCount:
-              !!record.fields.multiplyOneTimeBySimCount,
-            multiplyMonthlyBySimCount:
-              !!record.fields.multiplyMonthlyBySimCount,
+            monthlyPrice: record.fields.monthlyPrice,
+            oneTimePrice: record.fields.oneTimePrice,
+            features: record.fields.features,
+            multiplyOneTimePrice: record.fields.multiplyOneTimePrice
           }))
         );
 
-        const formattedPrices = (pricesResponse.data.records || []).reduce(
+        const formattedPrices = pricesResponse.data.records.reduce(
           (acc, record) => {
             const { Operator, DataPack, Price } = record.fields;
 
             if (!acc[Operator]) {
               acc[Operator] = {};
             }
-            acc[Operator][DataPack] =
-              typeof Price === "number" ? Price : "Ved forespørsel";
+            acc[Operator][DataPack] = Price || "Ved forespørsel"; // Default to 'Ved forespørsel' if Price is missing
             return acc;
           },
           {}
@@ -118,77 +109,78 @@ const ServiceConfigurator = () => {
 
         setPrices(formattedPrices); // Update state with formatted prices
 
-        // small UX delay to show loader
-        setTimeout(() => {
+        setTimeout(()=>{
           setIsLoaded(true);
-        }, 800);
+        },1000);
       } catch (error) {
         console.error("Error fetching Airtable data:", error);
       }
     };
 
-    fetchAirtableData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchAirtableData(additionalServices);
   }, []);
 
   const getPriceForPack = (operator, pack) => {
-    if (!operator || !pack) return "Ved forespørsel";
-    return prices[operator]?.[pack] ?? "Ved forespørsel";
+    return prices[operator]?.[pack] || "Ved forespørsel";
   };
 
-  // basePrice derived from selected operator & datapack
-  const basePriceRaw = getPriceForPack(
-    selectedOperator?.toString().trim().toLowerCase(),
-    selectedDataPack?.toString().trim().toLowerCase()
-  );
+const basePrice = getPriceForPack(selectedOperator.trim().toLowerCase(), selectedDataPack.trim().toLowerCase());
 
-  // calculate totals
+  // const basePrice =
+  //   typeof getPriceForPack(selectedOperator, selectedDataPack) === "number"
+  //     ? getPriceForPack(selectedOperator, selectedDataPack)
+  //     : 0;
+
   const calculateTotal = () => {
-    // Base price is monthly and multiplied by quantity (quantity = number of units/SIMs)
     const basePrice =
-      typeof basePriceRaw === "number" ? Number(basePriceRaw) : 0;
-
-    // monthly base multiplied by quantity
+      typeof getPriceForPack(selectedOperator, selectedDataPack) === "number"
+        ? getPriceForPack(selectedOperator, selectedDataPack)
+        : 0;
+    // Base price is always monthly and multiplied by quantity
     let monthly = basePrice * quantity;
     let oneTime = 0;
 
-    // ensure simCount reflects current quantity (safety)
-    const simCountLocal = simCount && simCount > 0 ? simCount : quantity;
+    selectedServices.forEach((service) => {
+  const serviceInfo = additionalServices.find((s) => s.id === service);
+  if (serviceInfo) {
+    // Add monthly price
+    if (serviceInfo.monthlyPrice) {
+      if (serviceInfo.multiplyOneTimePrice) {
+        monthly += serviceInfo.monthlyPrice * quantity;
+      } else {
+        monthly += serviceInfo.monthlyPrice;
+      }
+    }
 
-    selectedServices.forEach((serviceId) => {
-      const serviceInfo = additionalServices.find((s) => s.id === serviceId);
-      if (!serviceInfo) return;
+    // ✅ Add one-time price
+    if (serviceInfo.oneTimePrice) {
+      oneTime += serviceInfo.oneTimePrice;
+      
+      // if (serviceInfo.multiplyOneTimePrice) {
+      //   oneTime += serviceInfo.oneTimePrice;
+      // } else {
+      //   oneTime += serviceInfo.oneTimePrice;
+      // }
+    }
+  }
+  });
 
-      // Use calculateServiceCost for each service
-      const svc = calculateServiceCost(serviceInfo, simCountLocal, monthsCount);
-
-      // monthly in svc is per-month amount (already multiplied by simCount if flag set)
-      monthly += svc.monthly;
-      oneTime += svc.oneTime;
-    });
-
-    const total = oneTime + monthly * monthsCount;
-
-    return { monthly, oneTime, total };
+    return { monthly, oneTime };
   };
 
-  // update totals when dependencies change
-  useEffect(() => {
-    const newTotals = calculateTotal();
-    setTotals(newTotals);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    selectedOperator,
-    selectedDataPack,
-    quantity,
-    selectedServices,
-    additionalServices,
-    simCount,
-  ]);
 
-  // Determine if there is something to show as "any service selected" OR operator+datapack selected
-  const isAnyServiceSelected =
-    selectedServices.length > 0 || (selectedOperator && selectedDataPack);
+  // const totals = calculateTotal();
+  useEffect(() => {
+    // Викликати calculateTotal кожного разу, коли змінюються залежності
+     
+    const newTotals = calculateTotal();
+    console.log('New totals:', newTotals);
+    setTotals(newTotals);
+  }, [selectedOperator, selectedDataPack, quantity, selectedServices]);
+
+  const isAnyServiceSelected = Object.values(selectedDataPack).some(
+    (isSelected) => isSelected
+  );
 
   const saveOfferToAirtable = async (offer) => {
     const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_NAME}`;
@@ -207,14 +199,13 @@ const ServiceConfigurator = () => {
             Quantity: offer.quantity,
             AdditionalServices: offer.additionalServices,
             MonthlyPrice: parseFloat(offer.monthly),
-            TotalSum: parseFloat(offer.oneTime), // keep as before, but consider sending total too
-            // Optionally add "TotalOverall": parseFloat(offer.total)
+            TotalSum: parseFloat(offer.oneTime),
           },
         }),
       });
 
       if (response.ok) {
-        setSavedOffers((prev) => [...prev, offer]);
+        setSavedOffers([...savedOffers, offer]);
         setOfferSavedMessage(true);
 
         setTimeout(() => {
@@ -245,43 +236,39 @@ const ServiceConfigurator = () => {
         .join(", "),
       monthly: total.monthly.toFixed(2),
       oneTime: total.oneTime.toFixed(2),
-      total: total.total.toFixed(2),
     };
 
-    // Save to Airtable
+    // Збереження на Airtable
     saveOfferToAirtable(offer);
     setIsOfferSaved(true);
 
-    setTimeout(() => {
-      typeof window !== "undefined" && window.scrollTo(0, 0);
-    }, 200);
+    setTimeout(()=>{
+      typeof window !== 'undefined' && window.scrollTo(0, 0);
+    },200)
+
   };
 
   useEffect(() => {
     const print = (e) => {
-      if (e.data === "print") {
+      if (e.data === 'print') {
         window.print();
       }
-    };
+    }
 
-    typeof window !== "undefined" && window.addEventListener("message", print);
+    typeof window !== 'undefined' && window.addEventListener('message', print);
 
     return () => {
-      typeof window !== "undefined" &&
-        window.removeEventListener("message", print);
+      typeof window !== 'undefined' && window.removeEventListener('message', print);
     };
   }, []);
 
-  // Sort datapacks once when dataPacks change
-  useMemo(() => {
-    setDataPackSorted(
-      (dataPacks || []).slice().sort((a, b) => (a.order || 0) - (b.order || 0))
-    );
-  }, [dataPacks]);
+
+  useMemo(()=> setDataPackSorted(dataPacks?.sort((a, b) => a.order - b.order)),[dataPacks]);
+  
 
   return (
-    <div className={`wrapper relative${isLoaded ? "" : " is-loading"}`}>
-      {isLoaded ? <></> : <LoaderComponent />}
+    <div className={`wrapper relative${isLoaded ? '' : ' is-loading'}`}>
+      { isLoaded ? <></> : <LoaderComponent />}
       <Card>
         <CardHeader>
           <CardTitle>M2M Tjenesteoversikt</CardTitle>
@@ -289,6 +276,10 @@ const ServiceConfigurator = () => {
         {!isOfferSaved && (
           <>
             <CardContent>
+              {/* <div>
+                <h3>Debug: Additional Services</h3>
+                <pre>{JSON.stringify(prices, null, 2)}</pre>
+              </div> */}
               <div>
                 <div className="mb-10 flex flex-col items-start gap-6 self-stretch">
                   <h2 className="heading-h4">Operatør</h2>
@@ -300,7 +291,6 @@ const ServiceConfigurator = () => {
                         className={`button-custom font-small ${
                           selectedOperator === op.id ? "selected" : "default"
                         }`}
-                        type="button"
                       >
                         {op.name}
                       </button>
@@ -311,6 +301,7 @@ const ServiceConfigurator = () => {
                 <div>
                   <h2 className="mb-2 heading-h4">Datapakke</h2>
                   <div className="datapack_items_container">
+                    {/* Поле Antall у вигляді кнопки */}
                     <div className="datapack_raw_container">
                       <label className="datapack_raw_header heading-h6">
                         Antall:
@@ -319,33 +310,28 @@ const ServiceConfigurator = () => {
                         type="number"
                         min="1"
                         value={quantity}
-                        onChange={(e) => {
-                          const val = Math.max(
-                            1,
-                            parseInt(e.target.value, 10) || 1
-                          );
-                          setQuantity(val);
-                          setSimCount(val);
-                        }}
+                        onChange={(e) =>
+                          setQuantity(
+                            Math.max(1, parseInt(e.target.value) || 1)
+                          )
+                        }
                         className="datapack-input font-small"
                       />
                       <div className="datapack_buttons_container">
                         {dataPackSorted?.map((pack) => {
-                          return (
-                            <button
-                              key={pack.id}
-                              onClick={() => setSelectedDataPack(pack.id)}
-                              className={`button-custom font-small ${
-                                selectedDataPack === pack.id
-                                  ? "selected"
-                                  : "default"
-                              }`}
-                              type="button"
-                            >
-                              {pack.size}
-                            </button>
-                          );
-                        })}
+                          return(
+                          <button
+                            key={pack.id}
+                            onClick={() => setSelectedDataPack(pack.id)}
+                            className={`button-custom font-small ${
+                              selectedDataPack === pack.id
+                                ? "selected"
+                                : "default"
+                            }`}
+                          >
+                            {pack.size}
+                          </button>
+                        )})}
                       </div>
                     </div>
                   </div>
@@ -356,13 +342,10 @@ const ServiceConfigurator = () => {
                     Tilleggstjenester
                   </h4>
                   <div className="services-item-box">
-                    {additionalServices.map((service, idx) => {
+                    {additionalServices.map((service,idx) => {
                       return (
-                        <div
-                          className="services-item-wrap"
-                          key={service.id || idx}
-                        >
-                          <div className="services-item">
+                        <div className="services-item-wrap" key={idx}>
+                          <div key={service.id} className="services-item">
                             {/* Checkbox */}
                             <input
                               type="checkbox"
@@ -401,77 +384,98 @@ const ServiceConfigurator = () => {
 
                           {/* Price Section */}
                           <div className="heading-h6 services-item-price">
-                            {/* Display monthly and one-time with indication if per SIM */}
-                            {service.monthlyPrice ? (
-                              <p>
-                                Kr {Number(service.monthlyPrice).toFixed(2)}/mnd{" "}
-                                {service.multiplyMonthlyBySimCount
-                                  ? "(per SIM)"
-                                  : "(total)"}
-                              </p>
-                            ) : null}
+                            {/* <p>
+                              {service?.monthlyPrice ? (
+                                `Kr ${service?.monthlyPrice?.toFixed(2)}/mnd`
+                              ) : (
+                                <>- /mnd</>
+                              )}
+                            </p>
 
-                            {service.oneTimePrice ? (
-                              <p className="pt-1 sm:pt-1.5 text-sm text-gray-500">
-                                Kr {Number(service.oneTimePrice).toFixed(2)}{" "}
-                                {service.multiplyOneTimeBySimCount
-                                  ? "/ per SIM (engang)"
-                                  : "/ engang (total)"}
-                              </p>
-                            ) : null}
+                            <p className="pt-1 sm:pt-1.5 text-sm text-gray-500">
+                              {service?.oneTimePrice ? (
+                                `Kr ${service?.oneTimePrice?.toFixed(2)}/eng.s`
+                              ) : (
+                                <>- /eng.s</>
+                              )}
+                            </p> */}
+
+                            {service?.monthlyPrice && service?.oneTimePrice ? (
+                              <>
+                                <p>
+                                  {service?.monthlyPrice ? (
+                                    `Kr ${service?.monthlyPrice?.toFixed(
+                                      2
+                                    )}/mnd`
+                                  ) : (
+                                    <></>
+                                  )}
+                                </p>
+
+                                <p className="pt-1 sm:pt-1.5 text-sm text-gray-500">
+                                  {service?.oneTimePrice ? (
+                                    `+Kr ${service?.oneTimePrice?.toFixed(
+                                      2
+                                    )}/eng.s`
+                                  ) : (
+                                    <></>
+                                  )}
+                                </p>
+                              </>
+                            ) : (
+                              <>
+                                {service?.monthlyPrice ? (
+                                  <p>
+                                    Kr {service?.monthlyPrice?.toFixed(2)}
+                                    /mnd
+                                  </p>
+                                ) : (
+                                  <>
+                                    {service?.oneTimePrice ? (
+                                      <p>
+                                        Kr {service?.oneTimePrice?.toFixed(2)}
+                                        /eng.s
+                                      </p>
+                                    ) : (
+                                      <></>
+                                    )}
+                                  </>
+                                )}
+                              </>
+                            )}
                           </div>
                         </div>
-                      );
-                    })}
+                      );})}
                   </div>
                 </div>
               </div>
+              {/* <div> */}
             </CardContent>
           </>
         )}
 
         {isAnyServiceSelected && (
-          <div
-            className={
-              isOfferSaved
-                ? "printable-section-wrap p-6 sm:p-8 bg-white rounded-[10px] shadow-[1px_1px_4px_0px_rgba(0,0,0,0.25)]"
-                : ""
-            }
-          >
+          <div className={isOfferSaved ? 'printable-section-wrap p-6 sm:p-8 bg-white rounded-[10px] shadow-[1px_1px_4px_0px_rgba(0,0,0,0.25)]' : ''}>
             <div className="sm:px-6">
               {/* Totalpris */}
               <div className="totalpris-container sm:-mx-6 mb-4 p-4 sm:p-6 flex justify-between gap-2.5 rounded-[20px] bg-dark-bg">
                 <h3 className="totalpris-title heading-h4 text-custom-secondary-dark">
                   Totalpris
                 </h3>
-                {typeof basePriceRaw === "number" ? (
+                {typeof basePrice === "number" ? (
                   <div className="totalpris-content">
                     {totals.oneTime > 0 && (
                       <div className="totalpris-row">
                         <p className="totalpris-label">Engangssum</p>
                         <p className="totalpris-price">
-                          {totals?.oneTime ? (
-                            `kr ${totals?.oneTime?.toFixed(2)}`
-                          ) : (
-                            <></>
-                          )}
+                          {totals?.oneTime ? `kr ${totals?.oneTime?.toFixed(2)}` : <></>}
                         </p>
                       </div>
                     )}
                     <div className="totalpris-row">
                       <p className="totalpris-label">Månedlig</p>
                       <p className="totalpris-price">
-                        {typeof totals.monthly === "number"
-                          ? `kr ${totals.monthly.toFixed(2)} /mnd`
-                          : ""}
-                      </p>
-                    </div>
-                    <div className="totalpris-row mt-2">
-                      <p className="totalpris-label">Total (12 måneder)</p>
-                      <p className="totalpris-price">
-                        {typeof totals.total === "number"
-                          ? `kr ${totals.total.toFixed(2)}`
-                          : ""}
+                        {typeof totals.monthly === 'number' ? `kr ${totals.monthly.toFixed(2)}` : ''}
                       </p>
                     </div>
                   </div>
@@ -481,35 +485,37 @@ const ServiceConfigurator = () => {
                   </p>
                 )}
               </div>
-
               {/* Grunnpakke */}
               {selectedOperator && selectedDataPack && (
                 <div className="py-6 flex flex-col sm:flex-row justify-between gap-2 sm:gap-10 border-b border-b-dark-bg">
                   <div className="grunnpakke-content">
                     <p className="font-regular text-custom-secondary-dark font-bold">
-                      {operators.find((op) => op.id === selectedOperator)?.name}
+                      {operators.find((op) => op.id === selectedOperator).name}
                     </p>
                     <p className="grunnpakke-datapack text-custom-secondary-dark font-small font-medium">
                       {
                         operators.find((op) => op.id === selectedOperator)
-                          ?.description
+                          .description
                       }
                     </p>
                     <div className="flex gap-2 flex-wrap items-center">
+                      {/* Кількість */}
                       <p className="font-small text-custom-secondary-dark font-medium">
                         {
                           dataPacks.find((pack) => pack.id === selectedDataPack)
-                            ?.display
+                            .display
                         }{" "}
-                        (Antall {quantity})
+                        (Antall {quantity} {})
                       </p>
 
+                      {/* Ціна за одиницю */}
                       <p className="font-small text-custom-secondary-dark font-bold">
-                        {typeof basePriceRaw === "number"
-                          ? `kr ${basePriceRaw.toFixed(2)}`
-                          : basePriceRaw}
+                        {typeof basePrice === "number"
+                          ? `kr ${basePrice.toFixed(2)}`
+                          : basePrice}
                         /per enhet
                       </p>
+                      
                     </div>
                   </div>
 
@@ -517,94 +523,78 @@ const ServiceConfigurator = () => {
                     <div className="totalpris-row">
                       <p className="totalpris-label">Antall:</p>
                       <p className="totalpris-price">
-                        {typeof basePriceRaw === "number"
-                          ? `kr ${(basePriceRaw * quantity).toFixed(2)}`
-                          : basePriceRaw}
-                      </p>
+                          {typeof basePrice === "number"
+        ? `kr ${(basePrice * quantity).toFixed(2)}`
+        : basePrice}
+                        </p>
                     </div>
                   </div>
                 </div>
               )}
+              {/* Tilleggstjenester */}
+             {/* 2. Fix the individual service price display in Tilleggstjenester section */}
+{selectedServices.map((serviceId) => {
+  const service = additionalServices.find((s) => s.id === serviceId);
+  
+  // Calculate actual prices based on quantity and multiplier flags
+const isMultiply = service?.multiplyOneTimePrice === true;
+const actualOneTimePrice = service?.oneTimePrice 
+  ? (isMultiply ? service.oneTimePrice : service.oneTimePrice)
+  : 0;
+  
+  const actualMonthlyPrice = service?.monthlyPrice 
+    ? service.monthlyPrice * quantity  // Monthly should always multiply by quantity
+    : 0;
 
-              {/* Tilleggstjenester - detailed per selected service */}
-              {selectedServices.map((serviceId) => {
-                const service = additionalServices.find(
-                  (s) => s.id === serviceId
-                );
-                if (!service) return null;
+  return (
+    <div key={serviceId} className="py-6 flex flex-col border-b border-b-dark-bg">
+      <div className="flex justify-between flex-col md:flex-row gap-6 md:items-start">
+        <div className="service-info">
+          <h5 className="font-regular font-bold">{service.name}</h5>
+          <p className="mt-2 sm:mt-4">{service.description}</p>
+          {service.features?.length > 0 && (
+            <div className="mt-2">
+              <p className="font-small">Inkluderer:</p>
+              <ul className="mt-2 flex flex-col pl-5 gap-2 list-disc">
+                {service.features.map((feature, index) => (
+                  <li key={index} className="marker:text-custom-primary">
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+        <div className="totalpris-content">
+          {actualOneTimePrice > 0 && (
+            <div className="totalpris-row">
+              <p className="totalpris-label">Engangssum:</p>
+              <p className="totalpris-price">
+                kr {actualOneTimePrice.toFixed(2)}
+              </p>
+            </div>
+          )}
+          <div className="totalpris-row">
+            <p className="totalpris-label">Månedlig:</p>
+            <p className="totalpris-price">
+              {actualMonthlyPrice > 0 ? `kr ${actualMonthlyPrice.toFixed(2)}` : "kr 0.00"}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+})}
 
-                // Use same simCount that user provided
-                const svc = calculateServiceCost(
-                  service,
-                  simCount,
-                  monthsCount
-                );
-
-                return (
-                  <div
-                    key={serviceId}
-                    className="py-6 flex flex-col border-b border-b-dark-bg"
-                  >
-                    <div className="flex justify-between flex-col md:flex-row gap-6 md:items-start">
-                      <div className="service-info">
-                        <h5 className="font-regular font-bold">
-                          {service.name}
-                        </h5>
-                        <p className="mt-2 sm:mt-4">{service.description}</p>
-                        {service.features?.length > 0 && (
-                          <div className="mt-2">
-                            <p className="font-small">Inkluderer:</p>
-                            <ul className="mt-2 flex flex-col pl-5 gap-2 list-disc">
-                              {service.features.map((feature, index) => (
-                                <li
-                                  key={index}
-                                  className="marker:text-custom-primary"
-                                >
-                                  {feature}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </div>
-                      <div className="totalpris-content">
-                        {svc.oneTime > 0 && (
-                          <div className="totalpris-row">
-                            <p className="totalpris-label">Engangssum:</p>
-                            <p className="totalpris-price">
-                              kr {svc.oneTime.toFixed(2)}{" "}
-                              {service.multiplyOneTimeBySimCount
-                                ? `(for ${simCount} SIM)`
-                                : "(total)"}
-                            </p>
-                          </div>
-                        )}
-                        <div className="totalpris-row">
-                          <p className="totalpris-label">Månedlig:</p>
-                          <p className="totalpris-price">
-                            {svc.monthly > 0
-                              ? `kr ${svc.monthly.toFixed(2)} /mnd ${
-                                  service.multiplyMonthlyBySimCount
-                                    ? `(for ${simCount} SIM)`
-                                    : "(total)"
-                                }`
-                              : "kr 0.00"}
-                          </p>
-                        </div>
-                        <div className="totalpris-row mt-2">
-                          <p className="totalpris-label">Total (12 måneder)</p>
-                          <p className="totalpris-price">
-                            kr {svc.total.toFixed(2)}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+              {/* Success message */}
+              {/* {offerSavedMessage && (
+                <div className="totalpris-success-message">
+                  Offer Saved to Airtables!
+                </div>
+              )} */}
             </div>
 
-            {isOfferSaved && <PrintFooter />}
+            {isOfferSaved && <PrintFooter/>}
           </div>
         )}
 
@@ -614,8 +604,7 @@ const ServiceConfigurator = () => {
             className={`active-button ${
               !isAnyServiceSelected || isOfferSaved ? "disabled-button" : ""
             }`}
-            disabled={!isAnyServiceSelected || isOfferSaved}
-            type="button"
+            disabled={isOfferSaved}
           >
             {isOfferSaved ? (
               <>
@@ -631,8 +620,7 @@ const ServiceConfigurator = () => {
                     d="M10.568 18.269a.87.87 0 0 1-.595.231.87.87 0 0 1-.596-.231L4.62 13.813a1.13 1.13 0 0 1 0-1.674l.596-.558a1.324 1.324 0 0 1 1.787 0l2.97 2.782 8.024-7.516a1.324 1.324 0 0 1 1.787 0l.596.558a1.13 1.13 0 0 1 0 1.673l-9.812 9.19Z"
                     opacity=".3"
                   />
-                </svg>
-                Offer saved
+                </svg>Offer saved
               </>
             ) : (
               "Save an offer"
@@ -645,7 +633,6 @@ const ServiceConfigurator = () => {
               !isOfferSaved ? "disabled-button" : ""
             }`}
             disabled={!isOfferSaved}
-            type="button"
           >
             Save as PDF
             <svg
